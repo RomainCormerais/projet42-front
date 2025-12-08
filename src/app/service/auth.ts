@@ -23,6 +23,12 @@ export class AuthService {
     localStorage.removeItem('token');
   }
 
+  register(datas: { username: string; email: string; password: string; adresse: string }) {
+    return this.http.post(this.apiUrl + '/register', datas, {
+      responseType: 'text',
+    });
+  }
+
   get currentUser(): Utilisateur | null {
     const data = localStorage.getItem('user');
     return data ? JSON.parse(data) : null;

@@ -1,0 +1,89 @@
+<div class="container-fluid vh-100 bg-light">
+  <div class="row h-100 g-0">
+    <!-- Image à gauche -->
+    <div class="col-lg-8 d-none d-lg-block">
+      <div
+        class="h-100 w-100 bg-image"
+        style="
+          background-image: url('https://images.unsplash.com/photo-1606503153255-59d8b8b82176?auto=format&fit=crop&q=80&w=2670');
+          background-size: cover;
+          background-position: center;
+        "
+      ></div>
+    </div>
+
+    <!-- Formulaire -->
+    <div class="col-lg-4 d-flex align-items-center justify-content-center bg-white">
+      <div class="p-5 w-100" style="max-width: 480px">
+        <h1 class="h3 mb-4 fw-semibold text-success text-center">Créer un compte</h1>
+
+        @if (errorMessage) {
+        <div class="alert alert-warning">
+          {{ errorMessage }}
+        </div>
+        }
+
+        <form [formGroup]="registerForm" (ngSubmit)="submitRegister()">
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              id="username"
+              class="form-control"
+              placeholder="Nom d'utilisateur"
+              formControlName="username"
+            />
+            <label for="username">Nom d'utilisateur</label>
+          </div>
+
+          <div class="form-floating mb-3">
+            <input
+              type="email"
+              id="email"
+              class="form-control"
+              placeholder="Adresse email"
+              formControlName="email"
+            />
+            <label for="email">Adresse email</label>
+          </div>
+
+          <div class="form-floating mb-3">
+            <input
+              type="password"
+              id="password"
+              class="form-control"
+              placeholder="Mot de passe"
+              formControlName="password"
+            />
+            <label for="password">Mot de passe</label>
+          </div>
+
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              id="adresse"
+              class="form-control"
+              placeholder="Adresse postale"
+              formControlName="adresse"
+            />
+            <label for="adresse">Adresse</label>
+          </div>
+
+          <button
+            class="btn btn-outline-success w-100 py-2"
+            type="submit"
+            [disabled]="registerForm.invalid"
+          >
+            Créer le compte
+          </button>
+        </form>
+
+        <p class="text-center mt-4 mb-0 small">
+          Déjà inscrit ?
+          <a routerLink="auth/login" class="fw-semibold text-success text-decoration-none">
+            Se connecter
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
