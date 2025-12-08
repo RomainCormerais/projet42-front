@@ -16,7 +16,7 @@ export abstract class GenericService<T> {
     }
 
     findById(id: number): Observable<T> {
-        return this.http.get<T>(`${environment.BACKEND_URL}/${this.path}/${id}`)
+        return this.http.get<T>(`${environment.BACKEND_URL}${this.path}/${id}`)
     }
 
     save(obj: T): Observable<T> {
@@ -24,10 +24,10 @@ export abstract class GenericService<T> {
     }
 
     update(id: number, obj: T): Observable<T> {
-        return this.http.put<T>(`${environment.BACKEND_URL}/${this.path}/${id}`, obj)
+        return this.http.put<T>(`${environment.BACKEND_URL}${this.path}/${id}`, obj)
     }
 
     remove(id: number) {
-        return this.http.delete<void>(`${environment.BACKEND_URL}/${this.path}/${id}`)
+        return this.http.delete<void>(`${environment.BACKEND_URL}${this.path}/${id}`)
     }
 }

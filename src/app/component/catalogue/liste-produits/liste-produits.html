@@ -1,1 +1,36 @@
-<p>liste-produits works!</p>
+<div class="container mt-4">
+  <div class="container col-4 text-end">
+    <h1 class="text-primary mb-4 mt-4 text-center">Liste des jeux</h1>
+    <form class="navbar-form navbar-center">
+      <input type="text" class="form-control" placeholder="Search" name="recherche" />
+      <button class="btn btn-default" type="submit">
+        <i class="glyphicon glyphicon-search"></i>
+      </button>
+    </form>
+  </div>
+</div>
+<div class="container">
+  @for (jeu of listeJeux(); track $index) {
+  <div class="card" style="width: 18rem; display: inline-block; margin: 10px">
+    <div class="card-body">
+      <h5 class="card-title">
+        {{ jeu.nom_jeu }}
+      </h5>
+      <h6 class="card-subtitle mb-2 text-muted text-start">
+        {{ jeu.editeurDto!.nom_editeur }}
+      </h6>
+      <p class="card-text padding text-start">
+        {{ jeu.description_jeu }}
+      </p>
+      <span>
+        <div class="container text-end">
+          <a [routerLink]="['/details', jeu.id_jeu]" class="card-link text-start">Détails</a>
+          
+          <a href="" class="card-link offset-3"><i class="fa-solid fa-plus"></i></a>
+          <a href="" class="card-link text-end"><i class="fa-solid fa-minus"></i></a>
+        </div>
+      </span>
+    </div>
+  </div>
+  }
+</div>

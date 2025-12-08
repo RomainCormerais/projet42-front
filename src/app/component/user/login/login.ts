@@ -1,6 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../service/auth';
+
 
 @Component({
   selector: 'app-login',
@@ -8,10 +10,9 @@ import { Router } from '@angular/router';
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
-
 export class LoginComponent {
   fb = inject(FormBuilder);
-  // authService = inject(AuthService);
+  authService = inject(AuthService);
   router = inject(Router);
 
   loginForm!: FormGroup;
@@ -26,12 +27,19 @@ export class LoginComponent {
 
   submitLogin() {
     if (this.loginForm.invalid) return;
+    console.log('🚀 ~ login en cours ~ ');
+    console.log(this.loginForm.value);
 
-    // this.authService.login(this.loginForm.value).subscribe({
-    //   next: () => this.router.navigate(['/']),
-    //   error: (err) => {
-    //     this.errorMessage = err.error?.message || 'Email ou mot de passe incorrect.';
-    //   },
-    // });
+    this.authService.login(this.loginForm.value).subscribe({
+      next: (response) => {
+        console.log('🚀 ~ dans le next ~ ');
+        console.log('🚀 ~ response ~ ', response);
+
+        localStorage.setItem('user', JSON.stringify(response.utilisateur));
+        localStorage.setItem('token', response.token);
+        this.router.navigateByUrl('/panier');
+      },
+      error: () => (this.errorMessage = 'Identifiants incorrects'),
+    });
   }
 }

@@ -1,1 +1,28 @@
-<p>detail works!</p>
+<div class="container mt-5">
+  <div class="card offset-2" style="width: 60rem">
+    <div class="card-body">
+      <h5 class="card-title">
+        {{ jeu()!.nom_jeu }}
+      </h5>
+      <h6 class="card-subtitle mb-2 text-muted">
+        Jeu édité par
+        {{ jeu()!.editeurDto!.nom_editeur }}
+      </h6>
+      <p class="card-text">
+        Description :
+        {{ jeu()!.description_jeu }}
+      </p>
+      <p class="card-text text-end">
+        Prix :
+        {{ jeu()!.prix }}
+        euros <br />
+        {{ jeu()!.stock }}
+        exemplaires disponibles
+      </p>
+    </div>
+  </div>
+
+  <div class="text-center mt-4">
+    <button class="btn btn-success" (click)="toCatalogue()">Retour au catalogue</button>
+  </div>
+</div>
