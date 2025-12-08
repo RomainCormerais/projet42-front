@@ -1,1 +1,58 @@
-<p>login works!</p>
+<div class="bg-light d-flex align-items-center justify-content-center vh-100 vw-100 position-relative">
+
+  <!-- Background image -->
+  <div class="h-100 w-100 bg-image position-absolute"
+       style="background-image: url('https://images.unsplash.com/photo-1606503153255-59d8b8b82176?auto=format&fit=crop&q=80&w=2670');
+              background-size: cover; background-position: center;">
+  </div>
+
+  <div class="card shadow-lg rounded-4 mb-md-5 position-relative">
+    <div class="card-body p-5 p-md-5">
+
+      <h1 class="h4 text-center mb-4 fw-bold text-success">Connexion</h1>
+
+      @if (errorMessage) {
+        <div class="alert alert-warning" role="alert">
+          <i class="fas fa-exclamation-circle"></i> {{ errorMessage }}
+        </div>
+      }
+
+      <form [formGroup]="loginForm" (ngSubmit)="submitLogin()">
+
+        <div class="mb-3">
+          <label for="email" class="form-label">Adresse email</label>
+          <input type="email"
+                 id="email"
+                 class="form-control"
+                 formControlName="email"
+                 placeholder="exemple@domaine.com">
+        </div>
+
+        <div class="mb-3">
+          <label for="password" class="form-label">Mot de passe</label>
+          <input type="password"
+                 id="password"
+                 class="form-control"
+                 formControlName="password"
+                 placeholder="••••••••">
+        </div>
+
+        <button type="submit"
+                class="btn btn-success w-100"
+                [disabled]="loginForm.invalid">
+          Se connecter
+        </button>
+
+      </form>
+
+      <p class="text-center mt-4 mb-0 small">
+        Pas encore de compte ?
+        <a routerLink="/register"
+           class="text-decoration-none fw-semibold text-success">
+          Créer un compte
+        </a>
+      </p>
+    </div>
+  </div>
+
+</div>
