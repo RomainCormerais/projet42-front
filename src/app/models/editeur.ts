@@ -1,4 +1,4 @@
 export interface Editeur {
   id?: number;
-  nomEditeur: string;
+  nom_editeur: string;
 }

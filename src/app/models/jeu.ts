@@ -1,11 +1,11 @@
 import { Editeur } from './editeur';
 
 export interface Jeu {
-  id?: number;
-  nomJeu: string;
-  descriptionJeu: string;
+  id_jeu?: number;
+  nom_jeu: string;
+  description_jeu: string;
   image: string;
   prix: number;
   stock: number;
-  editeur: Editeur;
+  editeurDto: Editeur;
 }
