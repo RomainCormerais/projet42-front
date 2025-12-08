@@ -12,7 +12,9 @@ export const routes: Routes = [
   { path: 'catalogue', component: ListeProduitsComponent },
   { path: 'details/:id', component: DetailComponent },
   { path: 'auth/login', component: LoginComponent },
+  { path: 'auth/register', component: LoginComponent },
   { path: 'profil', component: ProfilComponent },
   { path: "panier", component: PanierComponent },
   { path: '**', redirectTo: '/accueil' },
+
 ];
