@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Utilisateur } from '../../../models/utilisateur';
 import { ProfilService } from '../../../service/profil';
@@ -10,17 +10,22 @@ import { ProfilService } from '../../../service/profil';
   styleUrl: './profil.css',
 })
 export class ProfilComponent implements OnInit {
-  utilisateur: Utilisateur | null = null;
-  successMessage = '';
-  errorMessage = '';
+  utilisateur = signal<Utilisateur | null>(null);
+  user = JSON.parse(localStorage.getItem('user')!);
+  id = this.user.id;
+
+  successMessage = signal('');
+  errorMessage = signal('');
   profilForm!: FormGroup;
   motDePasseForm!: FormGroup;
 
   constructor(private fb: FormBuilder, private profilService: ProfilService) {}
 
   ngOnInit(): void {
-    this.profilService.getUtilisateur().subscribe((utilisateur) => {
-      this.utilisateur = utilisateur;
+    this.profilService.findById(this.id).subscribe((utilisateur) => {
+      console.log('🚀 ~ onInit ~ ');
+
+      this.utilisateur.set(utilisateur);
       this.profilForm.patchValue(utilisateur);
     });
 
@@ -38,17 +43,22 @@ export class ProfilComponent implements OnInit {
   }
 
   updateProfil() {
-    this.profilService.updateProfil(this.profilForm.value).subscribe({
-      next: () => (this.successMessage = 'Profil mis à jour.'),
-      error: () => (this.errorMessage = 'Erreur lors de la mise à jour.'),
+    console.log('Maj du profil');
+    console.log(this.profilForm.value);
+    console.log(this.id);
+
+    this.profilService.update(this.id, this.profilForm.value).subscribe({
+      next: () => (this.successMessage.set('Profil mis à jour.')),
+      error: () => (this.errorMessage.set('Erreur lors de la mise à jour.')),
     });
+
   }
 
   changeMotDePasse() {
     const { newMotDePasse, confirmMotDePasse } = this.motDePasseForm.value;
 
     if (newMotDePasse !== confirmMotDePasse) {
-      this.errorMessage = 'Les mots de passe ne correspondent pas.';
+      this.errorMessage.set('Les mots de passe ne correspondent pas.');
       return;
     }
   }
@@ -56,8 +66,8 @@ export class ProfilComponent implements OnInit {
   removeProfil() {
     if (!confirm('Supprimer votre compte ?')) return;
 
-    this.profilService.remove(this.utilisateur?.id!).subscribe(() => {
-      alert('Compte supprimé.');
-    });
+    // this.profilService.remove(this.utilisateur?.id!).subscribe(() => {
+    //   alert('Compte supprimé.');
+    // });
   }
 }
