@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../service/auth';
-
+import { LoginLogoutService } from '../../../service/login-logout';
 
 @Component({
   selector: 'app-login',
@@ -13,6 +13,7 @@ import { AuthService } from '../../../service/auth';
 export class LoginComponent {
   fb = inject(FormBuilder);
   authService = inject(AuthService);
+  logService = inject(LoginLogoutService);
   router = inject(Router);
 
   loginForm!: FormGroup;
@@ -34,6 +35,7 @@ export class LoginComponent {
       next: (response) => {
         localStorage.setItem('user', JSON.stringify(response.utilisateur));
         localStorage.setItem('token', response.token);
+        this.logService.isConnected(true);
         this.router.navigateByUrl('/catalogue');
       },
       error: () => (this.errorMessage = 'Identifiants incorrects'),

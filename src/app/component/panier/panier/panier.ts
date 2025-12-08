@@ -19,12 +19,12 @@ export class PanierComponent implements OnInit {
   lignes = signal<LignePanier[]>([])
   logged: string = localStorage.getItem('user') ?? ''
   utilisateur: Utilisateur = { id: 0, adresse: '', adresseMail: '', isAdmin: false, nomUtilisateur: '' }
-  fake: Utilisateur = { id: 1, adresse: '12 rue des Fleurs, Paris', adresseMail: 'alice@gmail.com', isAdmin: false, nomUtilisateur: 'Alice' }
+
+  totalPanier = 0
 
   constructor(private ps: PanierService, private lps: LignePanierService) { }
 
   ngOnInit(): void {
-    localStorage.setItem('user', JSON.stringify(this.fake))
     if (this.logged != '') {
       this.utilisateur = JSON.parse(this.logged)
       this.ps.getPanierByUser(Number(this.utilisateur.id)).subscribe({
@@ -35,6 +35,7 @@ export class PanierComponent implements OnInit {
               next: res => {
                 console.log(res)
                 this.lignes.set(res)
+                this.calculateTotal()
               }
             })
           }
@@ -43,8 +44,10 @@ export class PanierComponent implements OnInit {
     }
   }
 
-
-
-
+  calculateTotal() {
+    for ( let ligne of this.lignes() ) {
+      this.totalPanier += ligne.jeu.prix * ligne.quantite
+    }
+  }
 
 }
