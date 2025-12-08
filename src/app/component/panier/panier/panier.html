@@ -1,21 +1,28 @@
-<h1>Panier</h1>
-<table class="table">
-    <thead>
-        <th>Jeu</th>
-        <th>Quantité</th>
-        <th>Prix unitaire</th>
-        <th>Prix total</th>
-    </thead>
-    <tbody>
-        @for (item of lignes(); track $index) {
-        <tr>
-            <td>{{ item.jeu.nom_jeu }}</td>
-            <td>{{ item.quantite }}</td>
-            <td>{{ item.jeu.prix | currency }}</td>
-            <td>{{ (item.jeu.prix * item.quantite)|currency }}</td>
-        </tr>
-        } @empty {
-        <p>Votre panier est vide.</p>
-        }
-    </tbody>
-</table>
+<div class="container">
+    <h1>Panier</h1>
+    <table class="table table-striped">
+        <thead>
+            <th>Jeu</th>
+            <th>Quantité</th>
+            <th>Prix unitaire</th>
+            <th>Prix total</th>
+        </thead>
+        <tbody>
+            @for (item of lignes(); track $index) {
+            <tr>
+                <td>{{ item.jeu.nom_jeu }}</td>
+                <td>{{ item.quantite }}</td>
+                <td>{{ item.jeu.prix | currency: '' : '€' }}</td>
+                <td>{{ (item.jeu.prix * item.quantite)|currency: '' : '€' }}</td>
+            </tr>
+            } @empty {
+            <p>Votre panier est vide.</p>
+            }
+        </tbody>
+        <tfoot>
+            <td colspan="2"></td>
+            <td>Total : </td>
+            <td> {{ totalPanier|currency: '' : '€' }}</td>
+        </tfoot>
+    </table>
+</div>
