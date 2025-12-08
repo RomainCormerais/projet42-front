@@ -1,63 +1,62 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Utilisateur } from '../../../models/utilisateur';
+import { ProfilService } from '../../../service/profil-service';
 
 @Component({
   selector: 'app-profil',
-  imports: [],
+  imports: [ReactiveFormsModule],
   templateUrl: './profil.html',
   styleUrl: './profil.css',
 })
 export class ProfilComponent implements OnInit {
-  user: any = null;
+  utilisateur: Utilisateur | null = null;
   successMessage = '';
   errorMessage = '';
+  profilForm!: FormGroup;
+  motDePasseForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private profileService: ProfileService) {}
-
-  profileForm = this.fb.group({
-    username: ['', Validators.required],
-    email: ['', [Validators.required, Validators.email]],
-    address: [''],
-  });
-
-  passwordForm = this.fb.group({
-    currentPassword: ['', Validators.required],
-    newPassword: ['', [Validators.required, Validators.maxLength(20)]],
-    confirmPassword: ['', Validators.required],
-  });
+  constructor(private fb: FormBuilder, private profilService: ProfilService) {}
 
   ngOnInit(): void {
-    this.profileService.getUser().subscribe((user) => {
-      this.user = user;
-      this.profileForm.patchValue(user);
+    this.profilService.getUtilisateur().subscribe((utilisateur) => {
+      this.utilisateur = utilisateur;
+      this.profilForm.patchValue(utilisateur);
+    });
+
+    this.profilForm = this.fb.group({
+      nomUtilisateur: ['', Validators.required],
+      adresseMail: ['', [Validators.required, Validators.email]],
+      adresse: [''],
+    });
+
+    this.motDePasseForm = this.fb.group({
+      currentMotDePasse: ['', Validators.required],
+      newMotDePasse: ['', [Validators.required, Validators.maxLength(20)]],
+      confirmMotDePasse: ['', Validators.required],
     });
   }
 
-  updateProfile() {
-    this.profileService.updateProfile(this.profileForm.value).subscribe({
+  updateProfil() {
+    this.profilService.updateProfil(this.profilForm.value).subscribe({
       next: () => (this.successMessage = 'Profil mis à jour.'),
       error: () => (this.errorMessage = 'Erreur lors de la mise à jour.'),
     });
   }
 
-  changePassword() {
-    const { newPassword, confirmPassword } = this.passwordForm.value;
+  changeMotDePasse() {
+    const { newMotDePasse, confirmMotDePasse } = this.motDePasseForm.value;
 
-    if (newPassword !== confirmPassword) {
+    if (newMotDePasse !== confirmMotDePasse) {
       this.errorMessage = 'Les mots de passe ne correspondent pas.';
       return;
     }
-
-    this.profileService.changePassword(this.passwordForm.value).subscribe({
-      next: () => (this.successMessage = 'Mot de passe modifié.'),
-      error: () => (this.errorMessage = 'Erreur lors du changement.'),
-    });
   }
 
-  deleteAccount() {
+  removeProfil() {
     if (!confirm('Supprimer votre compte ?')) return;
 
-    this.profileService.deleteAccount().subscribe(() => {
+    this.profilService.remove(this.utilisateur?.id!).subscribe(() => {
       alert('Compte supprimé.');
     });
   }

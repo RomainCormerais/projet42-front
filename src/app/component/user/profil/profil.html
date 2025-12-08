@@ -1,17 +1,17 @@
 <div class="container my-5">
 
-  @if (user) {
+  @if (utilisateur) {
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
       <div>
         <h1 class="h3 mb-0">
-          <i class="fa-solid fa-user-circle me-2"></i>
+          <i class="fa-solid fa-utilisateur-circle me-2"></i>
           Mon profil
         </h1>
         <p class="mb-0 text-muted">
           <small>
             <i class="fa-solid fa-envelope"></i>
-            {{ user.email }}
+            {{ utilisateur.adresseMail }}
           </small>
         </p>
       </div>
@@ -54,21 +54,21 @@
 
           <div class="card-body">
 
-            <form [formGroup]="profileForm" (ngSubmit)="updateProfile()">
+            <form [formGroup]="profilForm" (ngSubmit)="updateProfil()">
 
               <div class="mb-3">
                 <label class="form-label">Nom d'utilisateur</label>
-                <input class="form-control" formControlName="username" maxlength="20">
-                @if (profileForm.get('username')?.invalid && profileForm.get('username')?.touched) {
+                <input class="form-control" formControlName="nomUtilisateur" maxlength="20">
+                @if (profilForm.get('nomUtilisateur')?.invalid && profilForm.get('nomUtilisateur')?.touched) {
                   <div class="form-text text-danger">Le nom d’utilisateur est obligatoire.</div>
                 }
               </div>
 
               <div class="mb-3">
                 <label class="form-label">Adresse e-mail</label>
-                <input type="email" class="form-control" formControlName="email" maxlength="50">
-                @if (profileForm.get('email')?.invalid && profileForm.get('email')?.touched) {
-                  <div class="form-text text-danger">Adresse email invalide.</div>
+                <input type="adresseMail" class="form-control" formControlName="adresseMail" maxlength="50">
+                @if (profilForm.get('adresseMail')?.invalid && profilForm.get('adresseMail')?.touched) {
+                  <div class="form-text text-danger">Adresse adresseMail invalide.</div>
                 }
               </div>
 
@@ -83,7 +83,7 @@
                   Annuler
                 </button>
 
-                <button type="submit" class="btn btn-primary" [disabled]="profileForm.invalid">
+                <button type="submit" class="btn btn-primary" [disabled]="profilForm.invalid">
                   <i class="fa-solid fa-check me-1"></i> Enregistrer
                 </button>
               </div>
@@ -100,26 +100,26 @@
 
           <div class="card-body">
 
-            <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
+            <form [formGroup]="motDePasseForm" (ngSubmit)="changeMotDePasse()">
 
               <div class="mb-3">
                 <label class="form-label">Mot de passe actuel</label>
-                <input type="password" class="form-control" formControlName="currentPassword">
+                <input type="MotDePasse" class="form-control" formControlName="currentMotDePasse">
               </div>
 
               <div class="mb-3">
                 <label class="form-label">Nouveau mot de passe</label>
-                <input type="password" class="form-control" formControlName="newPassword" maxlength="20">
+                <input type="MotDePasse" class="form-control" formControlName="newMotDePasse" maxlength="20">
                 <div class="form-text">Max 20 caractères</div>
               </div>
 
               <div class="mb-3">
                 <label class="form-label">Confirmation</label>
-                <input type="password" class="form-control" formControlName="confirmPassword">
+                <input type="MotDePasse" class="form-control" formControlName="confirmMotDePasse">
               </div>
 
               <div class="d-flex justify-content-end">
-                <button type="submit" class="btn btn-warning" [disabled]="passwordForm.invalid">
+                <button type="submit" class="btn btn-warning" [disabled]="motDePasseForm.invalid">
                   <i class="fa-solid fa-key me-1"></i>
                   Changer le mot de passe
                 </button>
@@ -145,7 +145,7 @@
               La suppression est définitive et irréversible.
             </p>
 
-            <button class="btn btn-danger w-100" (click)="deleteAccount()">
+            <button class="btn btn-danger w-100" (click)="removeProfil()">
               <i class="fa-solid fa-trash me-1"></i>
               Supprimer mon compte
             </button>
