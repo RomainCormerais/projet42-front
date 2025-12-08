@@ -3,6 +3,5 @@ export interface Utilisateur {
   adresse: string;
   adresseMail: string;
   isAdmin: boolean;
-  motDePasse: string;
   nomUtilisateur: string;
 }
