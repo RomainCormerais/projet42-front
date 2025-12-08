@@ -15,13 +15,7 @@ export class AuthService {
   }
 
   login(credentials: { email: string; password: string }) {
-    console.log('🚀 ~ dans service ~ ');
-    console.log(this.apiUrl);
-
-    return this.http.post<any>(
-      `${this.apiUrl}/login`,
-      credentials
-    );
+    return this.http.post<any>(`${this.apiUrl}/login`, credentials);
   }
 
   logout() {

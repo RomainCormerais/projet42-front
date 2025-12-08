@@ -32,12 +32,9 @@ export class LoginComponent {
 
     this.authService.login(this.loginForm.value).subscribe({
       next: (response) => {
-        console.log('🚀 ~ dans le next ~ ');
-        console.log('🚀 ~ response ~ ', response);
-
         localStorage.setItem('user', JSON.stringify(response.utilisateur));
         localStorage.setItem('token', response.token);
-        this.router.navigateByUrl('/panier');
+        this.router.navigateByUrl('/catalogue');
       },
       error: () => (this.errorMessage = 'Identifiants incorrects'),
     });
