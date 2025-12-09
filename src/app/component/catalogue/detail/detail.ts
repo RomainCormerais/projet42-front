@@ -13,9 +13,7 @@ import { selectLignes } from '../../../stores/panier.selector';
 export class DetailComponent implements OnInit {
   jeu = input.required<Jeu>();
   quantiteCommandee: number = 0;
-  onChange = output<void>();
-  removeDisable: boolean = true;
-  addDisable: boolean = false;
+  onChange = output<void>(); 
   constructor(private store: Store) {}
   ngOnInit(): void {
     this.store.select(selectLignes).subscribe((lignes) => {
@@ -30,14 +28,11 @@ export class DetailComponent implements OnInit {
     if (this.quantiteCommandee < this.jeu().stock) {
       this.store.dispatch(addProduit({ lc: { jeu: this.jeu(), quantite: 1, panier: {} } }));
     }
-    this.addDisable = this.quantiteCommandee == this.jeu().stock ? true : false;
-    this.removeDisable = this.quantiteCommandee == 0 ? true : false;
   }
   retraitPanier(id: number) {
     if (this.quantiteCommandee == 1) {
       this.quantiteCommandee = 0;
     }
-    this.removeDisable = this.quantiteCommandee == 0 ? true : false;
     this.store.dispatch(removeProduit({ id: id }));
   }
 }

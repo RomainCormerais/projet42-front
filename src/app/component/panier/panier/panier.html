@@ -1,28 +1,46 @@
 <div class="container">
-    <h1>Panier</h1>
-    <table class="table table-striped">
-        <thead>
-            <th>Jeu</th>
-            <th>Quantité</th>
-            <th>Prix unitaire</th>
-            <th>Prix total</th>
-        </thead>
-        <tbody>
-            @for (item of lignes(); track $index) {
-            <tr>
-                <td>{{ item.jeu.nom_jeu }}</td>
-                <td>{{ item.quantite }}</td>
-                <td>{{ item.jeu.prix | currency: '' : '€' }}</td>
-                <td>{{ (item.jeu.prix * item.quantite)|currency: '' : '€' }}</td>
-            </tr>
-            } @empty {
-            <p>Votre panier est vide.</p>
+  <h1>Panier</h1>
+  <table class="table table-striped">
+    <thead>
+      <th>Jeu</th>
+      <th>Quantité</th>
+      <th>Prix unitaire</th>
+      <th>Prix total</th>
+      <th></th>
+    </thead>
+    <tbody>
+      @for (item of lignes(); track $index) {
+      <tr>
+        <td>{{ item.jeu.nom_jeu }}</td>
+        <td>
+          <span>
+            @if(!addDisable(item)){
+            <button class="btn" (click)="ajoutPanier(item)">
+              <i class="fa-solid fa-plus text-primary"></i></button
+            >} @if(addDisable(item)){
+            <span class="badge text-bg-danger">quantité max</span>
             }
-        </tbody>
-        <tfoot>
-            <td colspan="2"></td>
-            <td>Total : </td>
-            <td> {{ totalPanier|currency: '' : '€' }}</td>
-        </tfoot>
-    </table>
+            {{ item.quantite }}
+            <button class="btn" (click)="retraitPanier(item.jeu.id_jeu!)">
+              <i class="fa-solid fa-minus text-danger"></i></button
+          ></span>
+        </td>
+        <td>{{ item.jeu.prix | currency : '' : '€' }}</td>
+        <td>{{ item.jeu.prix * item.quantite | currency : '' : '€' }}</td>
+        <td>
+          <button type="button" class="btn" (click)="retirerDuPanier(item.jeu.id_jeu!)">
+            <i class="fa-solid fa-x"></i>
+          </button>
+        </td>
+      </tr>
+      } @empty {
+      <p>Votre panier est vide.</p>
+      }
+    </tbody>
+    <tfoot>
+      <td colspan="2"></td>
+      <td>Total :</td>
+      <td>{{ totalPanier() | currency : '' : '€' }}</td>
+    </tfoot>
+  </table>
 </div>

@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { PanierState } from './panier.state';
-import { addProduit, removeProduit } from './panier.action';
+import { addProduit, removeAllProduit, removeProduit } from './panier.action';
 
 export const initialState: PanierState = {
   lignes: [],
@@ -35,5 +35,8 @@ export const panierReducer = createReducer(
     } else {
       return { ...state };
     }
+  }),
+  on(removeAllProduit, (state, { id }) => {
+    return { ...state, lignes: [...state.lignes.filter((l) => l.jeu.id_jeu != id)] };
   })
 );
