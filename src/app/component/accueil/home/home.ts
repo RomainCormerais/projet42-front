@@ -1,8 +1,7 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { AuthService } from '../../../service/auth';
 import { RouterLink } from '@angular/router';
 import { Jeu } from '../../../models/jeu';
-import { Utilisateur } from '../../../models/utilisateur';
 import { JeuService } from '../../../service/jeu';
 import { EditeurService } from '../../../service/editeur';
 import { PanierService } from '../../../service/panier';
@@ -53,7 +52,7 @@ export class HomeComponent {
     }
   }
 
-  get jeuxParSlide(): Jeu[][] {
+  jeuxParSlide = computed(() => {
     const jeux = this.listeJeux();
     const groupes: Jeu[][] = [];
 
@@ -62,7 +61,7 @@ export class HomeComponent {
     }
 
     return groupes;
-  }
+  });
 
   estFavori(id: number): boolean {
     return this.favoris().includes(id);
