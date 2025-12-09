@@ -32,7 +32,7 @@ export class FavorisComponent implements OnInit {
     }
   }
 
-  supprimerFavori(favori: Favori, index: number) {
+  supprimerFavori(favori: Favori) {
     this.fs.removeFavori(favori.jeuDto.id_jeu!, favori.utilisateurDto.id!).subscribe({
       next: () => {
         this.favoris.set(this.favoris().filter((f) => 

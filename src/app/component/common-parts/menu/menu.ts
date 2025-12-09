@@ -1,6 +1,8 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { LoginLogoutService } from '../../../service/login-logout';
+import { AuthService } from '../../../service/auth';
+import { Utilisateur } from '../../../models/utilisateur';
 
 @Component({
   selector: 'app-menu',
@@ -9,11 +11,14 @@ import { LoginLogoutService } from '../../../service/login-logout';
   styleUrl: './menu.css',
 })
 export class MenuComponent implements OnInit {
-  isConnected = signal<boolean>(false);
-  constructor(private router: Router, private logService: LoginLogoutService) {
+  isConnected : boolean = false
+  constructor(private router: Router, private logService: LoginLogoutService, private authService : AuthService) {
   }
   ngOnInit(): void {
-    this.logService.getSubject().subscribe(v => this.isConnected.set(v));
+    if (this.authService.currentUser != null) {
+      this.isConnected = true
+    }
+    
   }
   login() {
     this.router.navigateByUrl('/auth/login');

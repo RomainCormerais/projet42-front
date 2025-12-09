@@ -6,7 +6,7 @@
     <li class="nav-item">
       <a class="nav-link" routerLink="/catalogue">Catalogue</a>
     </li>
-    @if (isConnected()) {
+    @if (isConnected) {
     <li class="nav-item">
       <a class="nav-link" routerLink="/favoris">Favoris</a>
     </li>
@@ -17,9 +17,9 @@
     <!-- <li class="nav-item">
     <a class="nav-link disabled" href="#">Disabled</a>
   </li> -->
-    <button type="button" class="btn" style="color: lightskyblue" [hidden]="isConnected()"
+    <button type="button" class="btn" style="color: lightskyblue" [hidden]="isConnected"
       (click)="login()">Login</button>
-    <button type="button" class="btn" style="color: lightcoral" [hidden]="!isConnected()" (click)="logout()">
+    <button type="button" class="btn" style="color: lightcoral" [hidden]="!isConnected" (click)="logout()">
       Logout
     </button>
   </ul>
