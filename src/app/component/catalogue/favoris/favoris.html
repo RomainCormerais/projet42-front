@@ -1,0 +1,11 @@
+<div class="container">
+    <h1>Favoris</h1>
+
+    @if (logged == null) {
+        <p class="text-danger">Vous devez être connecté pour ajouter des favoris.</p>
+    } @else {
+        @for (favori of favoris(); track $index) {
+            <app-favori-card [favori]="favori" (supprimer)="supprimerFavori($event, $index)"></app-favori-card>
+        }
+    }
+</div>

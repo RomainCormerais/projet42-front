@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { LoginLogoutService } from '../../../service/login-logout';
 
@@ -8,10 +8,12 @@ import { LoginLogoutService } from '../../../service/login-logout';
   templateUrl: './menu.html',
   styleUrl: './menu.css',
 })
-export class MenuComponent {
+export class MenuComponent implements OnInit {
   isConnected = signal<boolean>(false);
   constructor(private router: Router, private logService: LoginLogoutService) {
-    logService.getSubject().subscribe(v => this.isConnected.set(v));
+  }
+  ngOnInit(): void {
+    this.logService.getSubject().subscribe(v => this.isConnected.set(v));
   }
   login() {
     this.router.navigateByUrl('/auth/login');

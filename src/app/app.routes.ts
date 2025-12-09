@@ -7,6 +7,7 @@ import { DetailComponent } from './component/catalogue/detail/detail';
 import { HomeComponent } from './component/accueil/home/home';
 import { PanierComponent } from './component/panier/panier/panier';
 import { RegisterComponent } from './component/user/register/register/register';
+import { FavorisComponent } from './component/catalogue/favoris/favoris';
 
 export const routes: Routes = [
   { path: 'accueil', component: HomeComponent },
@@ -15,6 +16,7 @@ export const routes: Routes = [
   { path: "panier", component: PanierComponent },
   { path: 'auth/login', component: LoginComponent },
   { path: 'auth/register', component: RegisterComponent },
+  { path: 'favoris', component: FavorisComponent },
   { path: 'profil', component: ProfilComponent },
   { path: '**', redirectTo: '/accueil' },
 

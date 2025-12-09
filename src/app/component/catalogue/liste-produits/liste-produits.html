@@ -11,6 +11,6 @@
 </div>
 <div class="container">
   @for (jeu of listeJeux(); track $index) {
-  <app-detail [jeu]="jeu"></app-detail>
+  <app-detail [jeu]="jeu" (ajouterFavori)="ajoutFavori($event)"></app-detail>
   }
 </div>
