@@ -28,8 +28,6 @@ export class LoginComponent {
 
   submitLogin() {
     if (this.loginForm.invalid) return;
-    console.log('🚀 ~ login en cours ~ ');
-    console.log(this.loginForm.value);
 
     this.authService.login(this.loginForm.value).subscribe({
       next: (response) => {

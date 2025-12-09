@@ -17,7 +17,11 @@
   </div>
 }
 <div class="container">
-  @for (jeu of listeJeux(); track $index) {
-  <app-detail [jeu]="jeu" (ajouterFavori)="ajoutFavori($event)"></app-detail>
-  }
+  <div class="row g-4 justify-content-center">
+    @for (jeu of listeJeux(); track $index) {
+    <div class="col-md-4">
+      <app-jeu-card [jeu]="jeu" />
+    </div>
+    }
+  </div>
 </div>

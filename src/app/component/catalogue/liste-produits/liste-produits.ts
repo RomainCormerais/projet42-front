@@ -11,10 +11,11 @@ import { DetailComponent } from '../detail/detail';
 import { LoginLogoutService } from '../../../service/login-logout';
 import { AuthService } from '../../../service/auth';
 import { Subscription } from 'rxjs';
+import { JeuCardComponent } from '../jeu-card/jeu-card';
 
 @Component({
   selector: 'app-liste-produits',
-  imports: [DetailComponent],
+  imports: [JeuCardComponent],
   templateUrl: './liste-produits.html',
   styleUrl: './liste-produits.css',
 })

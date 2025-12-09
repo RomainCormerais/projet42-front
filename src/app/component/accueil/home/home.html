@@ -71,49 +71,30 @@
   <section class="container py-5">
     <h2 class="fw-bold mb-4 text-center">Les jeux les plus adoptés</h2>
 
-    <div class="row g-4">
-      <!-- Todo mettre un for sur les jeux -->
-      <div class="col-md-4">
-        <div class="game-card p-3 shadow-sm rounded h-100">
-          <img src="https://picsum.photos/400/250?random=1" class="img-fluid rounded mb-3" />
-          <h5 class="fw-bold">Nom du Jeu</h5>
-          <p class="text-muted">Un classique indémodable.</p>
-          <div class="d-flex justify-content-between">
-            <button class="btn btn-info">Voir</button>
-            <button class="btn btn-outline-secondary">
-              <i class="fa-regular fa-heart"></i>
-            </button>
+    <div id="carouselJeux" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        @for (groupe of jeuxParSlide(); let i = $index; track i) {
+        <div class="carousel-item" [class.active]="i === 0">
+          <div class="row g-4 justify-content-center">
+            @for (jeu of groupe; track jeu.id_jeu) {
+              <div class="col-md-4">
+                <app-jeu-card [jeu]="jeu"/>
+              </div>
+            }
           </div>
         </div>
+        }
       </div>
 
-      <div class="col-md-4">
-        <div class="game-card p-3 shadow-sm rounded h-100">
-          <img src="https://picsum.photos/400/250?random=2" class="img-fluid rounded mb-3" />
-          <h5 class="fw-bold">Nom du Jeu</h5>
-          <p class="text-muted">Celui qui finit dans tous les caddies.</p>
-          <div class="d-flex justify-content-between">
-            <button class="btn btn-info">Voir</button>
-            <button class="btn btn-outline-secondary">
-              <i class="fa-regular fa-heart"></i>
-            </button>
-          </div>
-        </div>
-      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselJeux" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Précédent</span>
+      </button>
 
-      <div class="col-md-4">
-        <div class="game-card p-3 shadow-sm rounded h-100">
-          <img src="https://picsum.photos/400/250?random=3" class="img-fluid rounded mb-3" />
-          <h5 class="fw-bold">Nom du Jeu</h5>
-          <p class="text-muted">Coup de cœur des stratèges.</p>
-          <div class="d-flex justify-content-between">
-            <button class="btn btn-info">Voir</button>
-            <button class="btn btn-outline-secondary">
-              <i class="fa-regular fa-heart"></i>
-            </button>
-          </div>
-        </div>
-      </div>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselJeux" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Suivant</span>
+      </button>
     </div>
   </section>
 
