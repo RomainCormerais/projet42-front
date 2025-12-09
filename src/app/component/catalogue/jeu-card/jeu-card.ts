@@ -9,7 +9,7 @@ import { selectLignes } from '../../../stores/panier.selector';
 
 @Component({
   selector: 'app-jeu-card',
-  imports: [RouterLink],
+  imports: [],
   templateUrl: './jeu-card.html',
   styleUrl: './jeu-card.css',
 })
