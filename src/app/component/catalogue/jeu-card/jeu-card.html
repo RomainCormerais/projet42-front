@@ -3,7 +3,7 @@
     <img
       (click)="goToJeu(jeu().id_jeu!)"
       class="img-fluid rounded mb-3 w-100"
-      [src]="'https://picsum.photos/400/250?random=' + jeu().id_jeu"
+      src="'images/{{ jeu().image }}"
       alt="{{ jeu().nom_jeu }}"
     />
 
