@@ -25,7 +25,7 @@ export class PanierComponent implements OnDestroy {
     id: 0,
     adresse: '',
     adresseMail: '',
-    isAdmin: false,
+    admin: false,
     nomUtilisateur: '',
   };
   totalPanier = signal<number>(0);

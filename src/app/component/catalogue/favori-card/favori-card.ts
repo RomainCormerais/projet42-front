@@ -22,7 +22,7 @@ export class FavoriCardComponent {
   }, utilisateurDto: {
     adresse: '',
     adresseMail: '',
-    isAdmin: false,
+    admin: false,
     nomUtilisateur: ''
   }}
 

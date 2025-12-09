@@ -1,4 +1,13 @@
-import { Component, EventEmitter, input, OnChanges, OnInit, Output, output, signal } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  input,
+  OnChanges,
+  OnInit,
+  Output,
+  output,
+  signal,
+} from '@angular/core';
 import { Jeu } from '../../../models/jeu';
 import { Store } from '@ngrx/store';
 import { addProduit, removeProduit } from '../../../stores/panier.action';
@@ -6,6 +15,7 @@ import { selectLignes } from '../../../stores/panier.selector';
 import { Favori } from '../../../models/favori';
 import { LoginLogoutService } from '../../../service/login-logout';
 import { AuthService } from '../../../service/auth';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-detail',
@@ -15,19 +25,25 @@ import { AuthService } from '../../../service/auth';
 })
 export class DetailComponent implements OnInit {
   jeu = input.required<Jeu>();
-  @Output() ajouterFavori = new EventEmitter<Jeu>()
+  @Output() ajouterFavori = new EventEmitter<Jeu>();
   quantiteCommandee: number = 0;
   onChange = output<void>();
   removeDisable: boolean = true;
   addDisable: boolean = false;
-  isConnected: boolean = false
+  isConnected: boolean = false;
+  isAdmin: boolean = false;
 
-  constructor(private store: Store, private logService: LoginLogoutService, private authService : AuthService) {
-  }
+  constructor(
+    private store: Store,
+    private logService: LoginLogoutService,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     if (this.authService.currentUser != null) {
-      this.isConnected = true
+      this.isConnected = true;
+      this.isAdmin = this.authService.currentUser.admin;
     }
     this.store.select(selectLignes).subscribe((lignes) => {
       lignes.forEach((l) => {
@@ -50,6 +66,9 @@ export class DetailComponent implements OnInit {
   }
 
   ajoutFavori(jeu: Jeu) {
-    this.ajouterFavori.emit(jeu)
+    this.ajouterFavori.emit(jeu);
+  }
+  modifierJeu(jeu: Jeu) {
+    this.router.navigate(['/catalogue/ajout', jeu.id_jeu!])
   }
 }

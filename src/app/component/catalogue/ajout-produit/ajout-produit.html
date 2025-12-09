@@ -1,0 +1,79 @@
+<div class="container mt-4">
+  <div class="container col-4 text-end">
+    <h4 class="text-primary mb-4 mt-4 text-center">Formulaire d'ajout de jeu</h4>
+    <div>
+      <form (ngSubmit)="envoyerDonnees()" #form="ngForm">
+        <div class="form-group text-start">
+          <label for="nom">Nom du jeu</label>
+          <input
+            class="form-control"
+            type="text"
+            id="nom"
+            [(ngModel)]="jeu().nom_jeu"
+            name="nom"
+            #nom="ngModel"
+            required
+          />
+        </div>
+        @if(nom.invalid && !nom.pristine){<span>Ce champ est obligatoire</span>}
+        <div class="form-group text-start">
+          <label for="desc">Description du jeu</label>
+          <textarea
+            class="form-control"
+            type="text"
+            id="desc"
+            [(ngModel)]="jeu().description_jeu"
+            name="desc"
+            #desc="ngModel"
+            required
+          ></textarea>
+        </div>
+        @if(desc.invalid && !desc.pristine){<span>Ce champ est obligatoire</span>}
+        <div class="form-group text-start">
+          <label for="edit">Nom de l'éditeur du jeu</label>
+          <input
+            class="form-control"
+            type="text"
+            id="edit"
+            [(ngModel)]="jeu().editeurDto.nom_editeur"
+            name="edit"
+            #edit="ngModel"
+            required
+          />
+        </div>
+        @if(edit.invalid && !edit.pristine){<span>Ce champ est obligatoire</span>}
+        <div class="form-group text-start">
+          <label for="stock">Stock disponible</label>
+          <input
+            class="form-control"
+            type="number"
+            id="stock"
+            [(ngModel)]="jeu().stock"
+            name="stock"
+            #stock="ngModel"
+            min="0"
+            required
+          />
+        </div>
+        @if(stock.invalid && !stock.pristine){<span>Le stock est obligatoire (0 possible)</span>}
+        <div class="form-group text-start">
+          <label for="prix">Prix</label>
+          <input
+            class="form-control"
+            type="number"
+            id="prix"
+            [(ngModel)]="jeu().prix"
+            name="prix"
+            #prix="ngModel"
+            min="1"
+            required
+          />
+        </div>
+        @if(prix.invalid && !prix.pristine){<span>Le prix doit être positif</span>}
+        <button class="btn btn-secondary m-4" type="submit" [disabled]="form.invalid">
+         {{label()}}
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

@@ -8,11 +8,14 @@ import { HomeComponent } from './component/accueil/home/home';
 import { PanierComponent } from './component/panier/panier/panier';
 import { RegisterComponent } from './component/user/register/register/register';
 import { FavorisComponent } from './component/catalogue/favoris/favoris';
+import { AjoutProduitComponent } from './component/catalogue/ajout-produit/ajout-produit';
 
 export const routes: Routes = [
   { path: 'accueil', component: HomeComponent },
   { path: 'catalogue', component: ListeProduitsComponent },
-  { path: 'details/:id', component: DetailComponent },
+  { path: 'catalogue/ajout', component: AjoutProduitComponent },
+  { path: 'catalogue/ajout/:id', component: AjoutProduitComponent },
+  { path: 'details', component: DetailComponent },
   { path: 'panier', component: PanierComponent },
   { path: 'auth/login', component: LoginComponent },
   { path: 'auth/register', component: RegisterComponent },

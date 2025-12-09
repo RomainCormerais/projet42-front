@@ -9,6 +9,13 @@
     </form>
   </div>
 </div>
+@if(connectedUser && connectedUser.admin){
+<div class="container text-end">
+    <button type="button" class="btn" (click)="goToAjouterJeu()">
+      <i class="fa-solid fa-puzzle-piece text-secondary fa-2xl"></i>
+    </button>
+  </div>
+}
 <div class="container">
   @for (jeu of listeJeux(); track $index) {
   <app-detail [jeu]="jeu" (ajouterFavori)="ajoutFavori($event)"></app-detail>

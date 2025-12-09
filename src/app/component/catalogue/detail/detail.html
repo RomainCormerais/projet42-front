@@ -8,7 +8,7 @@
       </div>
       <div class="col-2">
         @if(isConnected) {
-        <a style="cursor: pointer;" (click)="ajoutFavori(jeu())">
+        <a style="cursor: pointer" (click)="ajoutFavori(jeu())">
           <i class="fa-regular fa-star"></i>
         </a>
         }
@@ -21,6 +21,11 @@
       {{ jeu().description_jeu }}
     </p>
     <span>
+      @if(isConnected && isAdmin) {
+        <a style="cursor: pointer" (click)="modifierJeu(jeu())">
+          <i class="fa-solid fa-gear"></i>
+        </a>
+        } 
       @if (quantiteCommandee == 0 ) {
       <div class="container text-end">
         <button class="btn offset-3" (click)="ajoutPanier()">
@@ -33,10 +38,7 @@
           <i class="fa-solid fa-plus text-primary"></i>
         </button>
         {{ quantiteCommandee }}
-        <button
-          class="btn text-end"
-          (click)="retraitPanier(jeu().id_jeu!)"
-        >
+        <button class="btn text-end" (click)="retraitPanier(jeu().id_jeu!)">
           <i class="fa-solid fa-minus text-danger"></i>
         </button>
       </div>
