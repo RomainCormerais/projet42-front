@@ -1,5 +1,6 @@
-<div class="card" style="width: 18rem; display: inline-block; margin: 10px">
+<div class="card" style="width: 18rem; display: inline-block; margin: 10px;">
   <div class="card-body">
+    <img src="images/{{ jeu().image }}" class="card-img-top" alt="">
     <div class="row">
       <div class="col-10">
         <h5 class="card-title">
@@ -33,10 +34,7 @@
           <i class="fa-solid fa-plus text-primary"></i>
         </button>
         {{ quantiteCommandee }}
-        <button
-          class="btn text-end"
-          (click)="retraitPanier(jeu().id_jeu!)"
-        >
+        <button class="btn text-end" (click)="retraitPanier(jeu().id_jeu!)">
           <i class="fa-solid fa-minus text-danger"></i>
         </button>
       </div>
