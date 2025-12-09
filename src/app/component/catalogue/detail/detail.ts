@@ -5,6 +5,7 @@ import { addProduit, removeProduit } from '../../../stores/panier.action';
 import { selectLignes } from '../../../stores/panier.selector';
 import { Favori } from '../../../models/favori';
 import { LoginLogoutService } from '../../../service/login-logout';
+import { AuthService } from '../../../service/auth';
 
 @Component({
   selector: 'app-detail',
@@ -19,13 +20,15 @@ export class DetailComponent implements OnInit {
   onChange = output<void>();
   removeDisable: boolean = true;
   addDisable: boolean = false;
-  isConnected = signal<boolean>(false);
+  isConnected: boolean = false
 
-  constructor(private store: Store, private logService: LoginLogoutService) {
+  constructor(private store: Store, private logService: LoginLogoutService, private authService : AuthService) {
   }
-  
+
   ngOnInit(): void {
-    this.logService.getSubject().subscribe(v => this.isConnected.set(v));
+    if (this.authService.currentUser != null) {
+      this.isConnected = true
+    }
     this.store.select(selectLignes).subscribe((lignes) => {
       lignes.forEach((l) => {
         if (l.jeu.id_jeu == this.jeu().id_jeu) {

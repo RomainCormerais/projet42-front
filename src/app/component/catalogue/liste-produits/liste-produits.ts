@@ -9,6 +9,7 @@ import { Utilisateur } from '../../../models/utilisateur';
 import { PanierService } from '../../../service/panier';
 import { DetailComponent } from "../detail/detail";
 import { LoginLogoutService } from '../../../service/login-logout';
+import { AuthService } from '../../../service/auth';
 
 @Component({
   selector: 'app-liste-produits',
@@ -19,12 +20,13 @@ import { LoginLogoutService } from '../../../service/login-logout';
 export class ListeProduitsComponent implements OnInit {
   listeJeux = signal<Jeu[]>([]);
   error = signal<string | null>(null);
-  connectedUser = localStorage.getItem('user')
+  connectedUser: Utilisateur | null = null
 
-  constructor(private jeuService: JeuService, private editeurService: EditeurService, private ps: PanierService, private favorisService: FavorisService) {
+  constructor(private jeuService: JeuService, private editeurService: EditeurService, private ps: PanierService, private favorisService: FavorisService, private authService: AuthService) {
   }
 
   ngOnInit(): void {
+    this.connectedUser = this.authService.currentUser
     this.jeuService.findAll().subscribe({
       next: (res) => {
         this.listeJeux.set(res);
@@ -38,8 +40,8 @@ export class ListeProduitsComponent implements OnInit {
 
   ajoutFavori(jeu: Jeu) {
     if (this.connectedUser != null) {
-      let utilisateur: Utilisateur = JSON.parse(localStorage.getItem('user')!)
-      this.favorisService.save({ jeuDto: jeu, utilisateurDto: utilisateur }).subscribe({
+
+      this.favorisService.save({ jeuDto: jeu, utilisateurDto: this.connectedUser }).subscribe({
         next: () => {
           console.log('ajout ok');
         }

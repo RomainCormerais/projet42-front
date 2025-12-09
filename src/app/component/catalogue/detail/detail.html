@@ -7,7 +7,7 @@
         </h5>
       </div>
       <div class="col-2">
-        @if(isConnected() != null) {
+        @if(isConnected) {
         <a (click)="ajoutFavori(jeu())">
           <i class="fa-regular fa-star"></i>
         </a>
