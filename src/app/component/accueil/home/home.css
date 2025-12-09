@@ -6,15 +6,13 @@
       center/cover no-repeat;
 }
 
-/* Cards */
 .category-card,
-.game-card,
 .review-card {
+  cursor: pointer;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .category-card:hover,
-.game-card:hover,
 .review-card:hover {
   transform: translateY(-6px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
@@ -22,11 +20,6 @@
 
 .carousel-item {
   padding: 20px 0;
-}
-
-.game-card img {
-  height: 200px;
-  object-fit: cover;
 }
 
 .carousel-control-prev-icon,

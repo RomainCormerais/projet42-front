@@ -1,10 +1,10 @@
 import { Component, computed, inject, input, signal } from '@angular/core';
-import { Jeu } from '../../../../models/jeu';
-import { RouterLink } from '@angular/router';
-import { AuthService } from '../../../../service/auth';
-import { FavorisService } from '../../../../service/favoris';
-
-
+import { Jeu } from '../../../models/jeu';
+import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../../service/auth';
+import { FavorisService } from '../../../service/favoris';
+import { Store } from '@ngrx/store';
+import { addProduit, removeProduit } from '../../../stores/panier.action';
 
 @Component({
   selector: 'app-jeu-card',
@@ -15,9 +15,12 @@ import { FavorisService } from '../../../../service/favoris';
 export class JeuCardComponent {
   jeu = input.required<Jeu>();
   favoris = signal<number[]>([]);
+  quantiteCommandee: number = 0;
 
   favorisService = inject(FavorisService);
   authService = inject(AuthService);
+  router = inject(Router);
+  store = inject(Store);
 
   get isLogged() {
     return this.authService.currentUser !== null;
@@ -35,10 +38,21 @@ export class JeuCardComponent {
         },
       });
     }
+    this.store.select(selectLignes).subscribe((lignes) => {
+      lignes.forEach((l) => {
+        if (l.jeu.id_jeu == this.jeu().id_jeu) {
+          this.quantiteCommandee = l.quantite;
+        }
+      });
+    });
   }
 
   estFavori(id: number) {
     return this.favoris().includes(id);
+  }
+
+  goToJeu(id: number) {
+    this.router.navigate(['/details/', id]);
   }
 
   ajoutFavori() {
@@ -55,5 +69,18 @@ export class JeuCardComponent {
         this.favoris.set([...this.favoris(), jeu.id_jeu!]);
       });
     }
+  }
+
+  ajoutPanier() {
+    if (this.quantiteCommandee < this.jeu().stock) {
+      this.store.dispatch(addProduit({ lc: { jeu: this.jeu(), quantite: 1, panier: {} } }));
+    }
+  }
+
+  retraitPanier(id: number) {
+    if (this.quantiteCommandee == 1) {
+      this.quantiteCommandee = 0;
+    }
+    this.store.dispatch(removeProduit({ id: id }));
   }
 }

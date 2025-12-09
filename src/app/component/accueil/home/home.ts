@@ -4,7 +4,7 @@ import { RouterLink } from '@angular/router';
 import { Jeu } from '../../../models/jeu';
 import { JeuService } from '../../../service/jeu';
 import { FavorisService } from '../../../service/favoris';
-import { JeuCardComponent } from '../../catalogue/jeu-card/jeu-card/jeu-card';
+import { JeuCardComponent } from '../../catalogue/jeu-card/jeu-card';
 
 @Component({
   selector: 'app-home',
@@ -50,6 +50,4 @@ export class HomeComponent {
 
     return groupes;
   });
-
-
 }
