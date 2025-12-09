@@ -2,29 +2,36 @@ import { Component, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Utilisateur } from '../../../models/utilisateur';
 import { ProfilService } from '../../../service/profil';
+import { AuthService } from '../../../service/auth';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-profil',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './profil.html',
   styleUrl: './profil.css',
 })
 export class ProfilComponent implements OnInit {
   utilisateur = signal<Utilisateur | null>(null);
-  user = JSON.parse(localStorage.getItem('user')!);
-  id = this.user.id;
+  user: Utilisateur | null = null;
+  id: number | null = null;
 
   successMessage = signal('');
   errorMessage = signal('');
   profilForm!: FormGroup;
   motDePasseForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private profilService: ProfilService) {}
+  constructor(
+    private fb: FormBuilder,
+    private profilService: ProfilService,
+    private authService: AuthService
+  ) {
+    this.user = this.authService.currentUser;
+    this.id = this.user?.id ?? null;
+  }
 
   ngOnInit(): void {
-    this.profilService.findById(this.id).subscribe((utilisateur) => {
-      console.log('🚀 ~ onInit ~ ');
-
+    this.profilService.findById(this.id!).subscribe((utilisateur) => {
       this.utilisateur.set(utilisateur);
       this.profilForm.patchValue(utilisateur);
     });
@@ -43,24 +50,27 @@ export class ProfilComponent implements OnInit {
   }
 
   updateProfil() {
-    console.log('Maj du profil');
-    console.log(this.profilForm.value);
-    console.log(this.id);
-
-    this.profilService.update(this.id, this.profilForm.value).subscribe({
-      next: () => (this.successMessage.set('Profil mis à jour.')),
-      error: () => (this.errorMessage.set('Erreur lors de la mise à jour.')),
+    this.profilService.update(this.id!, this.profilForm.value).subscribe({
+      next: () => this.successMessage.set('Profil mis à jour.'),
+      error: () => this.errorMessage.set('Erreur lors de la mise à jour.'),
     });
-
   }
 
   changeMotDePasse() {
+    console.log('Maj du mdp');
+    console.log(this.motDePasseForm.value);
+    console.log(this.id);
     const { newMotDePasse, confirmMotDePasse } = this.motDePasseForm.value;
 
     if (newMotDePasse !== confirmMotDePasse) {
       this.errorMessage.set('Les mots de passe ne correspondent pas.');
       return;
     }
+
+    this.profilService.changeMotDePasse(this.id!, this.motDePasseForm.value).subscribe({
+      next: () => this.successMessage.set('Mot de passe mis à jour.'),
+      error: () => this.errorMessage.set('Erreur lors de la mise à jour du mot de passe.'),
+    });
   }
 
   removeProfil() {
