@@ -9,11 +9,11 @@ import { LignePanier } from '../models/ligne-panier';
 })
 export class LignePanierService extends GenericService<LignePanier> {
   constructor(http: HttpClient) {
-    super(http, 'lignes-panier')
+    super(http, '/lignes-panier')
   }
 
   getLignesByPanierId(id : number) {
-    return this.http.get<LignePanier[]>(`${environment.BACKEND_URL}/${this.path}/panier/${id}`)
+    return this.http.get<LignePanier[]>(`${environment.BACKEND_URL}${this.path}/panier/${id}`)
   }
 
 }

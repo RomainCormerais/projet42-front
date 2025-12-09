@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnDestroy, signal } from '@angular/core';
 import { LignePanier } from '../../../models/ligne-panier';
 import { Panier } from '../../../models/panier';
 import { Utilisateur } from '../../../models/utilisateur';
@@ -6,9 +6,9 @@ import { PanierService } from '../../../service/panier';
 import { LignePanierService } from '../../../service/ligne-panier';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
-import { selectLignes } from '../../../stores/panier.selector';
+import { selectLignes, selectNombreProduit } from '../../../stores/panier.selector';
 import { addProduit, removeAllProduit, removeProduit } from '../../../stores/panier.action';
-import { Jeu } from '../../../models/jeu';
+import { mergeMap, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-panier',
@@ -16,7 +16,7 @@ import { Jeu } from '../../../models/jeu';
   templateUrl: './panier.html',
   styleUrl: './panier.css',
 })
-export class PanierComponent implements OnInit {
+export class PanierComponent implements OnDestroy {
   panier = signal<Panier>({});
   noUserPanier: Panier = {};
   lignes = signal<LignePanier[]>([]);
@@ -29,33 +29,22 @@ export class PanierComponent implements OnInit {
     nomUtilisateur: '',
   };
   totalPanier = signal<number>(0);
+  storeSubscription: Subscription | null = null;
+  ligneSubscription: Subscription | null = null;
+  addSubscription: Subscription[] = [];
 
   constructor(private ps: PanierService, private lps: LignePanierService, private store: Store) {
-    this.store.select(selectLignes).subscribe((lignes) => this.lignes.set(lignes));
+    this.storeSubscription = this.store
+      .select(selectLignes)
+      .subscribe((lignes) => this.lignes.set(lignes));
     this.calculateTotal();
   }
 
-  ngOnInit(): void {
-    // if (this.logged != '') {
-    //   this.utilisateur = JSON.parse(this.logged)
-    //   this.ps.getPanierByUser(Number(this.utilisateur.id)).subscribe({
-    //     next: res => {
-    //       this.panier.set(res)
-    //       if (this.panier().id != undefined) {
-    //         this.lps.getLignesByPanierId(this.panier().id!).subscribe({
-    //           next: res => {
-    //             console.log(res)
-    //             this.lignes.set(res)
-    //             this.calculateTotal()
-    //           }
-    //         })
-    //       }
-    //     }
-    //   })
-    // } else {
-    // }
+  ngOnDestroy(): void {
+    this.storeSubscription?.unsubscribe();
+    this.ligneSubscription?.unsubscribe();
+    this.addSubscription.forEach((el) => el.unsubscribe());
   }
-
   calculateTotal() {
     let acc = 0;
     for (let ligne of this.lignes()) {
@@ -77,7 +66,39 @@ export class PanierComponent implements OnInit {
     this.store.dispatch(removeProduit({ id: id }));
     this.calculateTotal();
   }
-  addDisable(lc:LignePanier): boolean {
-    return  lc.quantite < lc.jeu.stock ? false : true;
+  addDisable(lc: LignePanier): boolean {
+    return lc.quantite < lc.jeu.stock ? false : true;
+  }
+  sauvegardePanier() {
+    this.lignes().forEach((element) => {
+      this.addSubscription.push(
+        this.lps
+          .save({ jeu: element.jeu, quantite: element.quantite, panier: this.panier() })
+          .subscribe({
+            next: (res) => {},
+            error: (err) => {
+              console.log(err);
+            },
+          })
+      );
+    });
+  }
+  chargerPanier() {
+    if (this.logged != '') {
+      this.utilisateur = JSON.parse(this.logged);
+      this.ligneSubscription = this.ps
+        .getPanierByUser(Number(this.utilisateur.id))
+        .pipe(
+          mergeMap((panier) => {
+            this.panier.set(panier);
+            return this.lps.getLignesByPanierId(panier.id!);
+          })
+        )
+        .subscribe({
+          next: (res) => {
+            res.forEach((l) => this.store.dispatch(addProduit({ lc: l })));
+          },
+        });
+    }
   }
 }
