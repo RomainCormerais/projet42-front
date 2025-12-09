@@ -18,6 +18,10 @@ button.btn:focus {
   border: none;
 }
 
+.btn-light {
+  padding: 0
+}
+
 .favori-btn {
   position: absolute;
   top: 10px;
@@ -26,13 +30,66 @@ button.btn:focus {
   height: 42px;
 }
 
-
-.btn-light {
-  padding: 0
-}
-
 .favori-btn i {
   font-size: 1.rem;
   padding: 0;
   margin: 0;
+}
+
+.cart-btn {
+  width: 42px;
+  height: 42px;
+  bottom: 12px;
+  right: 12px;
+  border-radius: 50%;
+  background: var(--bs-info);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  transition: 0.2s ease;
+}
+
+.cart-btn:hover {
+  filter: brightness(1.1);
+}
+
+.cart-quantite-box {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  background: white;
+  padding: 8px 10px;
+  border-radius: 50px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.quantite-btn {
+  width: 28px;
+  height: 28px;
+  font-size: 0.8rem;
+  color: lightgray;
+  border-radius: 50%;
+  background: #f7f7f7ff;
+  border: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.quantite-btn:hover {
+  color: black;
+  background: #ebebebff;
+}
+
+.quantite-value {
+  font-size: 1rem;
+  margin: 0 8px;
+  min-width: 20px;
+  text-align: center;
 }

@@ -10,23 +10,24 @@ import { PanierService } from '../../../service/panier';
 import { DetailComponent } from "../detail/detail";
 import { LoginLogoutService } from '../../../service/login-logout';
 import { AuthService } from '../../../service/auth';
+import { JeuCardComponent } from '../jeu-card/jeu-card';
 
 @Component({
   selector: 'app-liste-produits',
-  imports: [DetailComponent],
+  imports: [JeuCardComponent],
   templateUrl: './liste-produits.html',
   styleUrl: './liste-produits.css',
 })
 export class ListeProduitsComponent implements OnInit {
   listeJeux = signal<Jeu[]>([]);
   error = signal<string | null>(null);
-  connectedUser: Utilisateur | null = null
+  // connectedUser: Utilisateur | null = null
 
   constructor(private jeuService: JeuService, private editeurService: EditeurService, private ps: PanierService, private favorisService: FavorisService, private authService: AuthService) {
   }
 
   ngOnInit(): void {
-    this.connectedUser = this.authService.currentUser
+    // this.connectedUser = this.authService.currentUser
     this.jeuService.findAll().subscribe({
       next: (res) => {
         this.listeJeux.set(res);
@@ -38,16 +39,16 @@ export class ListeProduitsComponent implements OnInit {
     });
   }
 
-  ajoutFavori(jeu: Jeu) {
-    if (this.connectedUser != null) {
+  // ajoutFavori(jeu: Jeu) {
+  //   if (this.connectedUser != null) {
 
-      this.favorisService.save({ jeuDto: jeu, utilisateurDto: this.connectedUser }).subscribe({
-        next: () => {
-          console.log('ajout ok');
-        }
-      })
-    }
+  //     this.favorisService.save({ jeuDto: jeu, utilisateurDto: this.connectedUser }).subscribe({
+  //       next: () => {
+  //         console.log('ajout ok');
+  //       }
+  //     })
+  //   }
 
-  }
+  // }
 
 }

@@ -2,8 +2,8 @@
   <div class="position-relative">
     <img
       (click)="goToJeu(jeu().id_jeu!)"
-      class="img-fluid rounded mb-3 w-100"
-      src="'images/{{ jeu().image }}"
+      class="img-fluid object-fit-contain rounded mb-3 w-100"
+      src="images/{{ jeu().image }}"
       alt="{{ jeu().nom_jeu }}"
     />
 
@@ -22,27 +22,28 @@
     {{ jeu().description_jeu || 'Un classique indémodable.' }}
   </p>
 
-  @if (quantiteCommandee == 0 ) {
+  @if (quantiteCommandee === 0) {
   <button
-    class="btn btn-info position-absolute"
-    style="bottom: 12px; right: 12px"
+    class="cart-btn position-absolute"
     (click)="ajoutPanier()"
   >
     <i class="fas fa-shopping-cart"></i>
   </button>
 
-  }@else {
-  <button
-    class="btn btn-info position-absolute"
-    style="bottom: 12px; right: 12px"
-    (click)="ajoutPanier()"
-  >
-    <i class="fas fa-shopping-cart"></i>
-  </button>
-    {{ quantiteCommandee }}
-    <button class="btn btn-info position-absolute text-end" (click)="retraitPanier(jeu().id_jeu!)">
-      <i class="fa-solid fa-minus text-danger"></i>
+  } @else {
+
+  <div class="cart-quantite-box">
+    <button class="quantite-btn" (click)="ajoutPanier()">
+      <i class="fa-solid fa-plus"></i>
+    </button>
+    <span class="quantite-value">{{ quantiteCommandee }}</span>
+    <button class="quantite-btn" (click)="retraitPanier(jeu().id_jeu!)">
+      <i class="fa-solid fa-minus"></i>
+    </button>
+    <button class="cart-btn ms-2" (click)="goToPanier()">
+      <i class="fas fa-shopping-cart"></i>
     </button>
   </div>
+
   }
 </div>

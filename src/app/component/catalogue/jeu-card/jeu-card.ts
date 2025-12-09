@@ -5,6 +5,7 @@ import { AuthService } from '../../../service/auth';
 import { FavorisService } from '../../../service/favoris';
 import { Store } from '@ngrx/store';
 import { addProduit, removeProduit } from '../../../stores/panier.action';
+import { selectLignes } from '../../../stores/panier.selector';
 
 @Component({
   selector: 'app-jeu-card',
@@ -53,6 +54,10 @@ export class JeuCardComponent {
 
   goToJeu(id: number) {
     this.router.navigate(['/details/', id]);
+  }
+
+  goToPanier() {
+    this.router.navigateByUrl('panier');
   }
 
   ajoutFavori() {
