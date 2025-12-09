@@ -1,7 +1,8 @@
-import { Component, input, OnInit, signal } from '@angular/core';
+import { Component, input, OnChanges, OnInit, output, signal } from '@angular/core';
 import { Jeu } from '../../../models/jeu';
-import { Router } from '@angular/router';
-import { JeuService } from '../../../service/jeu';
+import { Store } from '@ngrx/store';
+import { addProduit, removeProduit } from '../../../stores/panier.action';
+import { selectLignes } from '../../../stores/panier.selector';
 
 @Component({
   selector: 'app-detail',
@@ -10,29 +11,28 @@ import { JeuService } from '../../../service/jeu';
   styleUrl: './detail.css',
 })
 export class DetailComponent implements OnInit {
-  id = input.required<number>();
-  jeu = signal<Jeu>({
-    nom_jeu: '',
-    description_jeu: '',
-    image: '',
-    prix: 0,
-    stock: 0,
-    editeurDto: { nom_editeur: '' },
-  });
-  error = signal<string | null>(null);
-  constructor(private router: Router, private jeuService: JeuService) {}
+  jeu = input.required<Jeu>();
+  quantiteCommandee: number = 0;
+  onChange = output<void>(); 
+  constructor(private store: Store) {}
   ngOnInit(): void {
-    this.jeuService.findById(this.id()).subscribe({
-      next: (res) => {
-        this.jeu.set(res);
-      },
-      error: (err) => {
-        this.error.set('Problème de récupération du jeu');
-        console.log(err);
-      },
+    this.store.select(selectLignes).subscribe((lignes) => {
+      lignes.forEach((l) => {
+        if (l.jeu.id_jeu == this.jeu().id_jeu) {
+          this.quantiteCommandee = l.quantite;
+        }
+      });
     });
   }
-  toCatalogue() {
-    this.router.navigateByUrl('/catalogue');
+  ajoutPanier() {
+    if (this.quantiteCommandee < this.jeu().stock) {
+      this.store.dispatch(addProduit({ lc: { jeu: this.jeu(), quantite: 1, panier: {} } }));
+    }
+  }
+  retraitPanier(id: number) {
+    if (this.quantiteCommandee == 1) {
+      this.quantiteCommandee = 0;
+    }
+    this.store.dispatch(removeProduit({ id: id }));
   }
 }

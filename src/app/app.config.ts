@@ -3,12 +3,15 @@ import { provideRouter, withComponentInputBinding } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-
+import { provideState, provideStore } from '@ngrx/store';
+import { panierReducer } from './stores/panier.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes, withComponentInputBinding()),
     provideHttpClient(withInterceptorsFromDi()),
+    provideStore(),
+    provideState({ name: 'panier', reducer: panierReducer }),
   ],
 };
