@@ -1,0 +1,26 @@
+
+  <div class="game-card p-3 shadow-sm rounded h-100">
+    <img
+      class="img-fluid rounded mb-3"
+      [src]="'https://picsum.photos/400/250?random=' + jeu().id_jeu"
+      alt="{{ jeu().nom_jeu }}"
+    />
+
+    <h5 class="fw-bold">{{ jeu().nom_jeu }}</h5>
+
+    <p class="text-muted">
+      {{ jeu().description_jeu || 'Un classique indémodable.' }}
+    </p>
+
+    <div class="d-flex justify-content-between">
+      <a [routerLink]="['/details', jeu().id_jeu]" class="btn btn-info">Voir</a>
+      <button class="btn" (click)="ajoutFavori()">
+        @if (estFavori(jeu().id_jeu!)) {
+        <i class="fa-solid fa-heart text-danger"></i>
+        } @else {
+        <i class="fa-regular fa-heart"></i>
+        }
+      </button>
+    </div>
+  </div>
+

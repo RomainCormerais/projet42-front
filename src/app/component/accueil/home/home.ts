@@ -3,25 +3,21 @@ import { AuthService } from '../../../service/auth';
 import { RouterLink } from '@angular/router';
 import { Jeu } from '../../../models/jeu';
 import { JeuService } from '../../../service/jeu';
-import { EditeurService } from '../../../service/editeur';
-import { PanierService } from '../../../service/panier';
 import { FavorisService } from '../../../service/favoris';
+import { JeuCardComponent } from '../../catalogue/jeu-card/jeu-card/jeu-card';
 
 @Component({
   selector: 'app-home',
-  imports: [RouterLink],
+  imports: [RouterLink, JeuCardComponent],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
 export class HomeComponent {
   listeJeux = signal<Jeu[]>([]);
-  favoris = signal<number[]>([]);
   error: string | null = null;
 
   authService = inject(AuthService);
   jeuService = inject(JeuService);
-  editeurService = inject(EditeurService);
-  ps = inject(PanierService);
   favorisService = inject(FavorisService);
 
   get isLogged() {
@@ -42,14 +38,6 @@ export class HomeComponent {
         console.log(err);
       },
     });
-
-    if (this.isLogged) {
-      this.favorisService.getFavorisByUserId(this.user?.id!).subscribe({
-        next: (fav) => {
-          this.favoris.set(fav.map((f) => f.jeuDto.id_jeu!) || []);
-        },
-      });
-    }
   }
 
   jeuxParSlide = computed(() => {
@@ -63,23 +51,5 @@ export class HomeComponent {
     return groupes;
   });
 
-  estFavori(id: number): boolean {
-    return this.favoris().includes(id);
-  }
 
-  ajoutFavori(jeu: Jeu) {
-    if (this.isLogged) {
-      if (this.estFavori(jeu.id_jeu!)) {
-        this.favorisService.removeFavori(jeu.id_jeu!, this.user?.id!).subscribe(() => {
-          this.favoris.set(this.favoris().filter((id) => id !== jeu.id_jeu));
-        });
-      } else {
-        this.favorisService.save({ jeuDto: jeu, utilisateurDto: this.user! }).subscribe({
-          next: () => {
-            this.favoris.set([...this.favoris(), jeu.id_jeu!]);
-          },
-        });
-      }
-    }
-  }
 }
