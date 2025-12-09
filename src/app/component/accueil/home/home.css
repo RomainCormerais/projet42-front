@@ -19,3 +19,22 @@
   transform: translateY(-6px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
+
+.carousel-item {
+  padding: 20px 0;
+}
+
+.game-card img {
+  height: 200px;
+  object-fit: cover;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  filter: invert(0%) brightness(0%);
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  width: 8%;
+}
