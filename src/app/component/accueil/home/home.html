@@ -1,3 +1,155 @@
-<div class="container mt-4">
-    <p>Bienvenue sur notre super site de vente de jeux de société</p>
+<div class="home">
+  <!-- Section hero -->
+  <section class="hero d-flex align-items-center text-center">
+    <div class="container text-white">
+      <h1 class="display-4 fw-bold mb-3">
+        Bienvenue sur <span class="text-info">Le Coin des Pions</span>
+      </h1>
+
+      <p class="lead mb-3">Tu viens pour un jeu. Tu repars avec quatre. C’est normal.</p>
+
+      <p class="fst-italic mb-2">
+        Nous avons des jeux pour tous les goûts. Même pour ceux qui disent : “Non mais moi j’aime
+        pas trop jouer.”
+      </p>
+      <p class="fst-italic mb-4">(Spoiler : ils finissent par acheter aussi.)</p>
+
+      <div class="d-flex justify-content-center gap-3">
+        <a routerLink="/catalogue" class="btn btn-info btn-lg px-4">Explorer les jeux</a>
+
+        @if (!isLogged) {
+        <a routerLink="/auth/register" class="btn btn-outline-light btn-lg px-4">
+          Créer un compte
+        </a>
+        } @else {
+        <a routerLink="/profil" class="btn btn-outline-light btn-lg px-4"> Mon espace </a>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Les categories -->
+  <section class="container py-5">
+    <h2 class="fw-bold mb-4 text-center">Parcours les univers</h2>
+
+    <div class="row g-4">
+      <div class="col-md-3">
+        <div class="category-card p-4 rounded shadow-sm text-center">
+          <i class="fa-solid fa-children display-6 text-info mb-3"></i>
+          <h5 class="fw-bold">Jeux Famille</h5>
+          <p class="text-muted">Pour des soirées où personne ne finit fâché.</p>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="category-card p-4 rounded shadow-sm text-center">
+          <i class="fa-solid fa-chess-rook display-6 text-info mb-3"></i>
+          <h5 class="fw-bold">Jeux Stratégie</h5>
+          <p class="text-muted">Pour ceux qui calculent tout. Même l’emplacement du pion rouge.</p>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="category-card p-4 rounded shadow-sm text-center">
+          <i class="fa-solid fa-face-grin-squint-tears display-6 text-info mb-3"></i>
+          <h5 class="fw-bold">Jeux d'Ambiance</h5>
+          <p class="text-muted">Fous rires garantis. Mauvaise foi aussi.</p>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="category-card p-4 rounded shadow-sm text-center">
+          <i class="fa-solid fa-dice-d20 display-6 text-info mb-3"></i>
+          <h5 class="fw-bold">Aventures & D20</h5>
+          <p class="text-muted">Là où les quêtes sont épiques, et les jets catastrophiques.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Les jeux populaires -->
+  <section class="container py-5">
+    <h2 class="fw-bold mb-4 text-center">Les jeux les plus adoptés</h2>
+
+    <div class="row g-4">
+      <!-- Todo mettre un for sur les jeux -->
+      <div class="col-md-4">
+        <div class="game-card p-3 shadow-sm rounded h-100">
+          <img src="https://picsum.photos/400/250?random=1" class="img-fluid rounded mb-3" />
+          <h5 class="fw-bold">Nom du Jeu</h5>
+          <p class="text-muted">Un classique indémodable.</p>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-info">Voir</button>
+            <button class="btn btn-outline-secondary">
+              <i class="fa-regular fa-heart"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="game-card p-3 shadow-sm rounded h-100">
+          <img src="https://picsum.photos/400/250?random=2" class="img-fluid rounded mb-3" />
+          <h5 class="fw-bold">Nom du Jeu</h5>
+          <p class="text-muted">Celui qui finit dans tous les caddies.</p>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-info">Voir</button>
+            <button class="btn btn-outline-secondary">
+              <i class="fa-regular fa-heart"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="game-card p-3 shadow-sm rounded h-100">
+          <img src="https://picsum.photos/400/250?random=3" class="img-fluid rounded mb-3" />
+          <h5 class="fw-bold">Nom du Jeu</h5>
+          <p class="text-muted">Coup de cœur des stratèges.</p>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-info">Voir</button>
+            <button class="btn btn-outline-secondary">
+              <i class="fa-regular fa-heart"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Les reco comme un vrai site -->
+  <section class="container py-5">
+    <h2 class="fw-bold mb-4 text-center">Ce qu’en disent les joueurs</h2>
+
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="review-card p-4 shadow-sm rounded h-100">
+          <p class="fst-italic">
+            “J’ai acheté un jeu. Puis deux. Puis dix. Je ne suis pas sûre que mon étagère survive,
+            mais moi oui.”
+          </p>
+          <strong class="text-info">— Mélanie, stratège à temps partiel</strong>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="review-card p-4 shadow-sm rounded h-100">
+          <p class="fst-italic">
+            “Le service est top. Les jeux aussi. Mon porte-monnaie… un peu moins.”
+          </p>
+          <strong class="text-info">— Romain, joueur repenti</strong>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="review-card p-4 shadow-sm rounded h-100">
+          <p class="fst-italic">
+            “Enfin une boutique qui comprend l’urgence vitale de commander un 3e jeu de cartes 'au
+            cas où'.”
+          </p>
+          <strong class="text-info">— Hélène, collectionneuse assumée</strong>
+        </div>
+      </div>
+    </div>
+  </section>
 </div>
