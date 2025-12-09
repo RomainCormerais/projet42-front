@@ -11,26 +11,6 @@
 </div>
 <div class="container">
   @for (jeu of listeJeux(); track $index) {
-  <div class="card" style="width: 18rem; display: inline-block; margin: 10px">
-    <div class="card-body">
-      <h5 class="card-title">
-        {{ jeu.nom_jeu }}
-      </h5>
-      <h6 class="card-subtitle mb-2 text-muted text-start">
-        {{ jeu.editeurDto!.nom_editeur }}
-      </h6>
-      <p class="card-text padding text-start">
-        {{ jeu.description_jeu }}
-      </p>
-      <span>
-        <div class="container text-end">
-          <a [routerLink]="['/details', jeu.id_jeu]" class="card-link text-start">Détails</a>
-          
-          <a href="" class="card-link offset-3"><i class="fa-solid fa-plus"></i></a>
-          <a href="" class="card-link text-end"><i class="fa-solid fa-minus"></i></a>
-        </div>
-      </span>
-    </div>
-  </div>
+  <app-detail [jeu]="jeu"></app-detail>
   }
 </div>

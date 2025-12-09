@@ -1,28 +1,35 @@
-<div class="container mt-5">
-  <div class="card offset-2" style="width: 60rem">
-    <div class="card-body">
-      <h5 class="card-title">
-        {{ jeu()!.nom_jeu }}
-      </h5>
-      <h6 class="card-subtitle mb-2 text-muted">
-        Jeu édité par
-        {{ jeu()!.editeurDto!.nom_editeur }}
-      </h6>
-      <p class="card-text">
-        Description :
-        {{ jeu()!.description_jeu }}
-      </p>
-      <p class="card-text text-end">
-        Prix :
-        {{ jeu()!.prix }}
-        euros <br />
-        {{ jeu()!.stock }}
-        exemplaires disponibles
-      </p>
-    </div>
-  </div>
-
-  <div class="text-center mt-4">
-    <button class="btn btn-success" (click)="toCatalogue()">Retour au catalogue</button>
+<div class="card" style="width: 18rem; display: inline-block; margin: 10px">
+  <div class="card-body">
+    <h5 class="card-title">
+      {{ jeu().nom_jeu }}
+    </h5>
+    <h6 class="card-subtitle mb-2 text-muted text-start">
+      {{ jeu().editeurDto!.nom_editeur }}
+    </h6>
+    <p class="card-text padding text-start">
+      {{ jeu().description_jeu }}
+    </p>
+    <span>
+      @if (quantiteCommandee == 0 ) {
+      <div class="container text-end">
+        <button class="btn offset-3" (click)="ajoutPanier()">
+          <i class="fa-solid fa-cart-plus text-primary"></i>
+        </button>
+      </div>
+      }@else {
+      <div class="container text-end">
+        <button class="btn offset-3" (click)="ajoutPanier()">
+          <i class="fa-solid fa-plus text-primary"></i>
+        </button>
+        {{ quantiteCommandee }}
+        <button
+          class="btn text-end"
+          (click)="retraitPanier(jeu().id_jeu!)"
+        >
+          <i class="fa-solid fa-minus text-danger"></i>
+        </button>
+      </div>
+      }
+    </span>
   </div>
 </div>
