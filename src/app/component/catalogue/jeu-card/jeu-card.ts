@@ -88,4 +88,8 @@ export class JeuCardComponent {
     }
     this.store.dispatch(removeProduit({ id: id }));
   }
+
+  modifierJeu(jeu: Jeu) {
+    this.router.navigate(['/catalogue/ajout', jeu.id_jeu!])
+  }
 }

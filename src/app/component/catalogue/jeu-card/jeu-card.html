@@ -21,12 +21,12 @@
   <p class="text-muted">
     {{ jeu().description_jeu || 'Un classique indémodable.' }}
   </p>
-
-  @if (quantiteCommandee === 0) {
-  <button
-    class="cart-btn position-absolute"
-    (click)="ajoutPanier()"
-  >
+  @if(isLogged && user?.admin) {
+  <a style="cursor: pointer" (click)="modifierJeu(jeu())">
+    <i class="fa-solid fa-gear"></i>
+  </a>
+  } @if (quantiteCommandee === 0) {
+  <button class="cart-btn position-absolute" (click)="ajoutPanier()">
     <i class="fas fa-shopping-cart"></i>
   </button>
 

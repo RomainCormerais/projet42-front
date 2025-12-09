@@ -41,9 +41,12 @@ export class DetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log(this.authService.currentUser);
     if (this.authService.currentUser != null) {
       this.isConnected = true;
       this.isAdmin = this.authService.currentUser.admin;
+      console.log(this.authService.currentUser);
+      
     }
     this.store.select(selectLignes).subscribe((lignes) => {
       lignes.forEach((l) => {

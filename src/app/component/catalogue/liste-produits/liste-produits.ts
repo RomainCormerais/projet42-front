@@ -36,7 +36,7 @@ export class ListeProduitsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.connectedUser = this.authService.currentUser;
-    this.jeuService.findAll().subscribe({
+    this.jeuSubscription = this.jeuService.findAll().subscribe({
       next: (res) => {
         this.listeJeux.set(res);
       },
