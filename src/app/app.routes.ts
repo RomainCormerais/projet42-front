@@ -13,11 +13,10 @@ export const routes: Routes = [
   { path: 'accueil', component: HomeComponent },
   { path: 'catalogue', component: ListeProduitsComponent },
   { path: 'details/:id', component: DetailComponent },
-  { path: "panier", component: PanierComponent },
+  { path: 'panier', component: PanierComponent },
   { path: 'auth/login', component: LoginComponent },
   { path: 'auth/register', component: RegisterComponent },
   { path: 'favoris', component: FavorisComponent },
   { path: 'profil', component: ProfilComponent },
   { path: '**', redirectTo: '/accueil' },
-
 ];

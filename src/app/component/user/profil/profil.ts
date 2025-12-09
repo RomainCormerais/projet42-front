@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Utilisateur } from '../../../models/utilisateur';
 import { ProfilService } from '../../../service/profil';
 import { AuthService } from '../../../service/auth';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-profil',
@@ -24,7 +24,8 @@ export class ProfilComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private profilService: ProfilService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {
     this.user = this.authService.currentUser;
     this.id = this.user?.id ?? null;
@@ -57,9 +58,6 @@ export class ProfilComponent implements OnInit {
   }
 
   changeMotDePasse() {
-    console.log('Maj du mdp');
-    console.log(this.motDePasseForm.value);
-    console.log(this.id);
     const { newMotDePasse, confirmMotDePasse } = this.motDePasseForm.value;
 
     if (newMotDePasse !== confirmMotDePasse) {
@@ -76,8 +74,16 @@ export class ProfilComponent implements OnInit {
   removeProfil() {
     if (!confirm('Supprimer votre compte ?')) return;
 
-    // this.profilService.remove(this.utilisateur?.id!).subscribe(() => {
-    //   alert('Compte supprimé.');
-    // });
+    this.profilService.remove(this.utilisateur()?.id!).subscribe({
+      next: () => {
+        this.utilisateur.set(null);
+        this.user = null;
+        this.id = null;
+        this.authService.logout();
+
+        this.router.navigate(['/auth/login']);
+      },
+      error: () => this.errorMessage.set('Erreur lors de la supression du compte.'),
+    });
   }
 }
