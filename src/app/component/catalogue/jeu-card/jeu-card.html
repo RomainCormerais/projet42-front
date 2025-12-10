@@ -1,49 +1,51 @@
-<div class="game-card shadow-sm rounded h-100 p-3 position-relative">
-  <div class="position-relative">
-    <img
-      (click)="goToJeu(jeu().id_jeu!)"
-      class="img-fluid object-fit-contain rounded mb-3 w-100"
-      src="images/{{ jeu().image }}"
-      alt="{{ jeu().nom_jeu }}"
-    />
+<div class="game-card shadow-sm rounded position-relative">
+  <img
+    (click)="goToJeu(jeu().id_jeu!)"
+    class="img-fluid object-fit-contain rounded mb-3 w-100"
+    src="images/{{ jeu().image }}"
+    alt="{{ jeu().nom_jeu }}"
+  />
 
-    <button class="favori-btn btn btn-light rounded-circle shadow" (click)="ajoutFavori()">
-      @if (estFavori(jeu().id_jeu!)) {
-      <i class="fa-solid fa-heart text-danger"></i>
-      } @else {
-      <i class="fa-regular fa-heart"></i>
-      }
-    </button>
-  </div>
-
+  <button class="favori-btn btn btn-light rounded-circle shadow" (click)="ajoutFavori()">
+    @if (estFavori(jeu().id_jeu!)) {
+    <i class="fa-solid fa-heart text-danger"></i>
+    } @else {
+    <i class="fa-regular fa-heart"></i>
+    }
+  </button>
   <h5 class="fw-bold">{{ jeu().nom_jeu }}</h5>
 
-  <p class="text-muted">
+  <p class="text-muted description">
     {{ jeu().description_jeu || 'Un classique indémodable.' }}
   </p>
-  @if(isLogged && user?.admin) {
-  <a style="cursor: pointer" (click)="modifierJeu(jeu())">
-    <i class="fa-solid fa-gear"></i>
-  </a>
-  } @if (quantiteCommandee === 0) {
-  <button class="cart-btn position-absolute" (click)="ajoutPanier()">
-    <i class="fas fa-shopping-cart"></i>
-  </button>
 
-  } @else {
+  <!-- les boutons -->
+  <div class="mt-3">
+    @if(isLogged && user?.admin) {
+    <a class="fiche-btn" (click)="modifierJeu(jeu())">
+      <i class="fa-solid fa-gear"></i>
+    </a>
+    } @if (quantiteCommandee === 0) {
 
-  <div class="cart-quantite-box">
-    <button class="quantite-btn" (click)="ajoutPanier()">
-      <i class="fa-solid fa-plus"></i>
-    </button>
-    <span class="quantite-value">{{ quantiteCommandee }}</span>
-    <button class="quantite-btn" (click)="retraitPanier(jeu().id_jeu!)">
-      <i class="fa-solid fa-minus"></i>
-    </button>
-    <button class="cart-btn ms-2" (click)="goToPanier()">
+    <button class="cart-btn position-absolute" (click)="ajoutPanier()">
       <i class="fas fa-shopping-cart"></i>
     </button>
-  </div>
 
-  }
+    } @else {
+
+    <div class="cart-quantite-box">
+      <button class="quantite-btn" (click)="ajoutPanier()">
+        <i class="fa-solid fa-plus"></i>
+      </button>
+      <span class="quantite-value">{{ quantiteCommandee }}</span>
+      <button class="quantite-btn" (click)="retraitPanier(jeu().id_jeu!)">
+        <i class="fa-solid fa-minus"></i>
+      </button>
+      <button class="cart-btn ms-2" (click)="goToPanier()">
+        <i class="fas fa-shopping-cart"></i>
+      </button>
+    </div>
+
+    }
+  </div>
 </div>
