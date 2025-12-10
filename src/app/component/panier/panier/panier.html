@@ -6,10 +6,10 @@
     Votre panier est vide…
     <br />
     <a routerLink="/catalogue" class="btn btn-info mt-3">
-      Découvrir les jeux <i class="fas fa-angle-right"></i
-    ></a>
+      Découvrir les jeux <i class="fas fa-angle-right"></i></a>
   </div>
-  } @for (lc of lignes(); track lc.jeu.id_jeu) {
+  } 
+  @for (lc of lignes(); track lc.jeu.id_jeu) {
   <div class="cart-item d-flex align-items-center p-3 mb-3 shadow-sm rounded">
     <img [src]="'images/' + lc.jeu.image" alt="jeu" class="cart-img rounded" />
 
@@ -43,7 +43,8 @@
   <div class="cart-total-box shadow-sm p-4 rounded mt-4">
     @if (lignes().length > 0) {
     <h4 class="fw-bold mb-3">Total : {{ totalPanier() }} €</h4>
-    <button class="btn btn-success w-100 mb-3 py-2">
+
+    <button class="btn btn-success w-100 mb-3 py-2" (click)="startFireworks()">
       Procéder au paiement <i class="fas fa-angle-right"></i>
     </button>
     <button class="btn btn-outline-primary w-100 mb-2" (click)="sauvegardePanier()">
@@ -53,5 +54,9 @@
     <button class="btn btn-outline-secondary w-100" (click)="chargerPanier()">
       <i class="fas fa-cloud-upload-alt"></i> Charger le panier en ligne
     </button>
+  </div>
+  
+  <div style="position: relative;">
+    <div #container class="fireworks-container"></div>
   </div>
 </div>
