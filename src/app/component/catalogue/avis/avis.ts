@@ -1,8 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Avis } from '../../../models/avis';
 import { CommonModule } from '@angular/common';
-import { Utilisateur } from '../../../models/utilisateur';
-import { Serializer } from '@angular/compiler';
+
 
 @Component({
   selector: 'app-avis',
@@ -11,7 +10,6 @@ import { Serializer } from '@angular/compiler';
   styleUrl: './avis.css',
 })
 export class AvisComponent implements OnInit {
-
   @Input() avis!: Avis;
   etoiles = '';
 
@@ -23,11 +21,11 @@ export class AvisComponent implements OnInit {
     let stars = '';
 
     for (let i = 0; i < this.avis.note; i++) {
-      stars += '<i class="fa-solid fa-star" style="color: #FFD43B;"></i>';
+      stars += '<i class="fa-solid fa-star star-full"></i>';
     }
     if (this.avis.note < 5) {
       for (let i = 0; i < 5 - this.avis.note; i++) {
-        stars += '<i class="fa-regular fa-star" style="color: #FFD43B;"></i>';
+        stars += '<i class="fa-regular fa-star star-empty"></i>';
       }
     }
 
