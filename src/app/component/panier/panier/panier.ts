@@ -6,10 +6,12 @@ import { PanierService } from '../../../service/panier';
 import { LignePanierService } from '../../../service/ligne-panier';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
-import { selectLignes, selectNombreProduit } from '../../../stores/panier.selector';
+import { selectLignes } from '../../../stores/panier.selector';
 import { addProduit, removeAllProduit, removeProduit } from '../../../stores/panier.action';
-import { mergeMap, Subscription } from 'rxjs';
 import { RouterLink } from '@angular/router';
+import { concat, Observable, Subscription } from 'rxjs';
+
+
 
 @Component({
   selector: 'app-panier',
@@ -33,6 +35,7 @@ export class PanierComponent implements OnDestroy {
   storeSubscription: Subscription | null = null;
   ligneSubscription: Subscription | null = null;
   panierSubscription: Subscription | null = null;
+  saveSubscription: Subscription | null = null;
   addSubscription: Subscription[] = [];
 
   constructor(private ps: PanierService, private lps: LignePanierService, private store: Store) {
@@ -55,6 +58,7 @@ export class PanierComponent implements OnDestroy {
     this.ligneSubscription?.unsubscribe();
     this.addSubscription.forEach((el) => el.unsubscribe());
     this.panierSubscription?.unsubscribe();
+    this.saveSubscription?.unsubscribe();
   }
 
   calculateTotal() {
@@ -85,21 +89,20 @@ export class PanierComponent implements OnDestroy {
   }
 
   sauvegardePanier() {
-    this.ps.emptyPanierById(this.panier().id!).subscribe({
-      next: (res) => {},
-      error: (err) => console.log(err),
-    });
+    let tabObservable: Observable<LignePanier>[] = [];
     this.lignes().forEach((element) => {
-      this.addSubscription.push(
-        this.lps
-          .save({ jeu: element.jeu, quantite: element.quantite, panier: this.panier() })
-          .subscribe({
-            next: (res) => {},
-            error: (err) => {
-              console.log(err);
-            },
-          })
+      tabObservable.push(
+        this.lps.save({ jeu: element.jeu, quantite: element.quantite, panier: this.panier() })
       );
+    });
+    this.saveSubscription = concat(
+      this.ps.emptyPanierById(this.panier().id!),
+      ...tabObservable
+    ).subscribe({
+      next: (res) => {},
+      error: (err) => {
+        console.log(err);
+      },
     });
   }
 
