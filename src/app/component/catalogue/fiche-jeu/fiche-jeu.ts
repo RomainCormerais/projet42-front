@@ -75,13 +75,13 @@ export class FicheJeuComponent implements OnInit {
   }
 
   ajoutPanier() {
-    if (this.quantiteCommandee < this.jeu().stock) {
+    if (this.quantiteCommandee() < this.jeu().stock) {
       this.store.dispatch(addProduit({ lc: { jeu: this.jeu(), quantite: 1, panier: {} } }));
     }
   }
   retraitPanier(id: number) {
-    if (this.quantiteCommandee == 1) {
-      this.quantiteCommandee = 0;
+    if (this.quantiteCommandee() == 1) {
+      this.quantiteCommandee.set(0);
     }
     this.store.dispatch(removeProduit({ id: id }));
   }
