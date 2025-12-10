@@ -1,0 +1,32 @@
+.searchbar {
+  max-width: 450px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.search-input {
+  padding: 10px 14px;
+  border-radius: 25px;
+  border: 1px solid #ced4da;
+  transition: all 0.2s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(23, 162, 184, 0.3); /* halo bleu */
+  border-color: #17a2b8;
+}
+
+.search-btn {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-btn i {
+  font-size: 1.1rem;
+}
