@@ -8,7 +8,8 @@
     <a routerLink="/catalogue" class="btn btn-info mt-3">
       Découvrir les jeux <i class="fas fa-angle-right"></i></a>
   </div>
-  } @for (lc of lignes(); track lc.jeu.id_jeu) {
+  } 
+  @for (lc of lignes(); track lc.jeu.id_jeu) {
   <div class="cart-item d-flex align-items-center p-3 mb-3 shadow-sm rounded">
     <img [src]="'images/' + lc.jeu.image" alt="jeu" class="cart-img rounded" />
 
@@ -54,7 +55,7 @@
       <i class="fas fa-cloud-upload-alt"></i> Charger le panier en ligne
     </button>
   </div>
-  }
+  
   <div style="position: relative;">
     <div #container class="fireworks-container"></div>
   </div>
