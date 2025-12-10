@@ -9,13 +9,14 @@ import { PanierComponent } from './component/panier/panier/panier';
 import { RegisterComponent } from './component/user/register/register/register';
 import { FavorisComponent } from './component/catalogue/favoris/favoris';
 import { AjoutProduitComponent } from './component/catalogue/ajout-produit/ajout-produit';
+import { FicheJeuComponent } from './component/catalogue/fiche-jeu/fiche-jeu';
 
 export const routes: Routes = [
   { path: 'accueil', component: HomeComponent },
   { path: 'catalogue', component: ListeProduitsComponent },
   { path: 'catalogue/ajout', component: AjoutProduitComponent },
   { path: 'catalogue/ajout/:id', component: AjoutProduitComponent },
-  { path: 'details', component: DetailComponent },
+  { path: 'details/:id', component: FicheJeuComponent },
   { path: 'panier', component: PanierComponent },
   { path: 'auth/login', component: LoginComponent },
   { path: 'auth/register', component: RegisterComponent },
