@@ -13,8 +13,6 @@ import { concat, Observable, Subscription } from 'rxjs';
 import { FireworksDirective, FireworksOptions, NgFireworksModule } from '@fireworks-js/angular';
 import Fireworks from 'fireworks-js';
 
-
-
 @Component({
   selector: 'app-panier',
   imports: [CommonModule, RouterLink, NgFireworksModule],
@@ -124,6 +122,7 @@ export class PanierComponent implements OnDestroy {
               this.store.dispatch(removeAllProduit({ id: element.jeu.id_jeu! }));
             });
             res.forEach((l) => this.store.dispatch(addProduit({ lc: l })));
+            this.calculateTotal();
           });
       }
     }
