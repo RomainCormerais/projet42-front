@@ -11,8 +11,6 @@ import { addProduit, removeAllProduit, removeProduit } from '../../../stores/pan
 import { RouterLink } from '@angular/router';
 import { concat, Observable, Subscription } from 'rxjs';
 
-
-
 @Component({
   selector: 'app-panier',
   imports: [CommonModule, RouterLink],
@@ -119,6 +117,7 @@ export class PanierComponent implements OnDestroy {
               this.store.dispatch(removeAllProduit({ id: element.jeu.id_jeu! }));
             });
             res.forEach((l) => this.store.dispatch(addProduit({ lc: l })));
+            this.calculateTotal();
           });
       }
     }
