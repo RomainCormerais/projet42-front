@@ -1,4 +1,4 @@
-import { Component, OnDestroy, signal } from '@angular/core';
+import { Component, ElementRef, OnDestroy, signal, ViewChild } from '@angular/core';
 import { LignePanier } from '../../../models/ligne-panier';
 import { Panier } from '../../../models/panier';
 import { Utilisateur } from '../../../models/utilisateur';
@@ -10,12 +10,14 @@ import { selectLignes } from '../../../stores/panier.selector';
 import { addProduit, removeAllProduit, removeProduit } from '../../../stores/panier.action';
 import { RouterLink } from '@angular/router';
 import { concat, Observable, Subscription } from 'rxjs';
+import { FireworksDirective, FireworksOptions, NgFireworksModule } from '@fireworks-js/angular';
+import Fireworks from 'fireworks-js';
 
 
 
 @Component({
   selector: 'app-panier',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, NgFireworksModule],
   templateUrl: './panier.html',
   styleUrl: './panier.css',
 })
@@ -59,6 +61,9 @@ export class PanierComponent implements OnDestroy {
     this.addSubscription.forEach((el) => el.unsubscribe());
     this.panierSubscription?.unsubscribe();
     this.saveSubscription?.unsubscribe();
+    if (this.fireworks) {
+      this.fireworks.stop();
+    }
   }
 
   calculateTotal() {
@@ -99,7 +104,7 @@ export class PanierComponent implements OnDestroy {
       this.ps.emptyPanierById(this.panier().id!),
       ...tabObservable
     ).subscribe({
-      next: (res) => {},
+      next: (res) => { },
       error: (err) => {
         console.log(err);
       },
@@ -123,4 +128,80 @@ export class PanierComponent implements OnDestroy {
       }
     }
   }
+
+
+  // fireworks
+  @ViewChild('container', { static: true })
+  container!: ElementRef<HTMLDivElement>;
+
+  fireworks!: Fireworks;
+  isRunning = false;
+
+  startFireworks() {
+    if (!this.fireworks) {
+      this.fireworks = new Fireworks(this.container.nativeElement, {
+        autoresize: true,
+        opacity: 0.5,
+        acceleration: 1.05,
+        friction: 0.97,
+        gravity: 1.5,
+        particles: 50,
+        traceLength: 10,
+        traceSpeed: 10,
+        explosion: 5,
+        intensity: 30,
+        flickering: 50,
+        lineStyle: 'round',
+        hue: {
+          min: 0,
+          max: 360
+        },
+        delay: {
+          min: 30,
+          max: 60
+        },
+        rocketsPoint: {
+          min: 50,
+          max: 50
+        },
+        lineWidth: {
+          explosion: {
+            min: 1,
+            max: 3
+          },
+          trace: {
+            min: 1,
+            max: 2
+          }
+        },
+        brightness: {
+          min: 50,
+          max: 80
+        },
+        decay: {
+          min: 0.015,
+          max: 0.03
+        },
+        mouse: {
+          click: false,
+          move: false,
+          max: 1
+        },
+        boundaries: {
+          height: 1000
+        }
+      })
+        ;
+    }
+
+    this.fireworks.start();
+    this.isRunning = true;
+
+    // stop après 3 secondes (optionnel)
+    setTimeout(() => {
+      this.fireworks.stop();
+      this.isRunning = false;
+    }, 10000);
+  }
+
 }
