@@ -34,7 +34,7 @@
             <button class="quantite-btn" (click)="ajoutPanier()">
               <i class="fa-solid fa-plus"></i>
             </button>
-            <span class="quantite-value">{{ quantiteCommandee }}</span>
+            <span class="quantite-value">{{ quantiteCommandee() }}</span>
             <button class="quantite-btn" (click)="retraitPanier(jeu().id_jeu!)">
               <i class="fa-solid fa-minus"></i>
             </button>

@@ -30,7 +30,7 @@ export class FicheJeuComponent implements OnInit {
     },
   });
 
-  quantiteCommandee: number = 0;
+  quantiteCommandee = signal<number>(0);
   isAdmin: boolean = false;
   isConnected: boolean = false;
 
@@ -68,7 +68,7 @@ export class FicheJeuComponent implements OnInit {
     this.store.select(selectLignes).subscribe((lignes) => {
       lignes.forEach((l) => {
         if (l.jeu.id_jeu == this.jeu().id_jeu) {
-          this.quantiteCommandee = l.quantite;
+          this.quantiteCommandee.set(l.quantite);
         }
       });
     });
