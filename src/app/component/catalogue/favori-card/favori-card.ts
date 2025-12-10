@@ -23,7 +23,7 @@ export class FavoriCardComponent {
     adresse: '',
     adresseMail: '',
     admin: false,
-    nomUtilisateur: ''
+    nom_utilisateur: ''
   }}
 
   @Output() supprimer = new EventEmitter<Favori>()

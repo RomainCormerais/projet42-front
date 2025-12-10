@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, signal } from '@angular/core';
+import { Component, inject, Input, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { JeuService } from '../../../service/jeu';
 import { Jeu } from '../../../models/jeu';
@@ -19,8 +19,7 @@ import { addProduit, removeProduit } from '../../../stores/panier.action';
   styleUrl: './fiche-jeu.css',
 })
 export class FicheJeuComponent implements OnInit {
-
-  idJeu: number = 0
+  idJeu: number = 0;
   jeu = signal<Jeu>({
     nom_jeu: '',
     description_jeu: '',
@@ -28,36 +27,41 @@ export class FicheJeuComponent implements OnInit {
     prix: 0,
     stock: 0,
     editeurDto: {
-      nom_editeur: ''
-    }
-  })
+      nom_editeur: '',
+    },
+  });
 
   quantiteCommandee: number = 0;
   isAdmin: boolean = false;
   isConnected: boolean = false;
 
+  listeAvis = signal<Avis[]>([]);
 
-  listeAvis = signal<Avis[]>([])
 
-  constructor(private route: ActivatedRoute, private jeuService: JeuService, private avisService: AvisService, private store: Store, private authService: AuthService,     private router: Router
-  
-  ) {
-
-  }
+  constructor(
+    private route: ActivatedRoute,
+    private jeuService: JeuService,
+    private avisService: AvisService,
+    private store: Store,
+    private authService: AuthService,
+    private router: Router
+  ) {}
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      this.idJeu = Number(params.get('id')) ?? 0
-    })
+    this.route.paramMap.subscribe((params) => {
+      this.idJeu = Number(params.get('id')) ?? 0;
+    });
     if (this.idJeu != 0) {
       this.jeuService.findById(this.idJeu).subscribe({
         next: (res) => {
-          this.jeu.set(res)
-        }
-      })
+          this.jeu.set(res);
+        },
+      });
     }
     this.avisService.getAvisByJeuId(this.idJeu).subscribe({
-      next: (res) => { this.listeAvis.set(res) }
-    })
+      next: (res) => {
+        this.listeAvis.set(res);
+      },
+    });
 
     if (this.authService.currentUser != null) {
       this.isConnected = true;
@@ -85,6 +89,10 @@ export class FicheJeuComponent implements OnInit {
   }
 
   modifierJeu(jeu: Jeu) {
-    this.router.navigate(['/catalogue/ajout', jeu.id_jeu!])
+    this.router.navigate(['/catalogue/ajout', jeu.id_jeu!]);
+  }
+
+  goToPanier() {
+    this.router.navigateByUrl('panier');
   }
 }
