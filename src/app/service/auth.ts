@@ -3,7 +3,7 @@ import { environment } from '../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
 import { Utilisateur } from '../models/utilisateur';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { NotExpr } from '@angular/compiler';
+import { jwtDecode } from 'jwt-decode';
 
 
 @Injectable({
@@ -45,4 +45,8 @@ export class AuthService {
     return this.isLoggedInSubject.value;
   }
 
+  isExpired(token: string): boolean {
+    const decoded = jwtDecode(token);
+    return Math.round(Date.now() / 1000) > (decoded.exp ?? 1);
+  }
 }

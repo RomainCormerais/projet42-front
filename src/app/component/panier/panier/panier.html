@@ -47,13 +47,15 @@
     <button class="btn btn-success w-100 mb-3 py-2" (click)="startFireworks()">
       Procéder au paiement <i class="fas fa-angle-right"></i>
     </button>
+    @if(logged != ''){
     <button class="btn btn-outline-primary w-100 mb-2" (click)="sauvegardePanier()">
       Sauvegarder le panier en ligne
     </button>
-    }
+    } } @if(logged != ''){
     <button class="btn btn-outline-secondary w-100" (click)="chargerPanier()">
       <i class="fas fa-cloud-upload-alt"></i> Charger le panier en ligne
     </button>
+    }
   </div>
   
   <div style="position: relative;">
