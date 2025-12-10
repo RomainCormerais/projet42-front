@@ -23,13 +23,8 @@
         </a>
         <ul class="dropdown-menu">
           <li>
-            <a class="dropdown-item" routerLink="/panier">
-              <i class="fas fa-shopping-cart"></i> Panier
-            </a>
-          </li>
-          <li>
             <a class="dropdown-item" routerLink="/favoris">
-              <i class="fa-solid fa-heart"></i> Favoris
+              <i class="fa-solid fa-heart"></i> Mes favoris
             </a>
           </li>
           <li><hr class="dropdown-divider" /></li>
@@ -41,12 +36,11 @@
           <li>
             <button
               type="button"
-              class="dropdown-item"
-              style="color: lightcoral"
+              class="dropdown-item btn-logout"
               [hidden]="!isConnected"
               (click)="logout()"
             >
-              <i class="fas fa-sign-out-alt"></i> Logout
+              <i class="fas fa-sign-out-alt"></i> Se déconnecter
             </button>
           </li>
         </ul>

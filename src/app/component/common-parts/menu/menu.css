@@ -6,3 +6,11 @@
 .nav-tabs {
   border-bottom: none;
 }
+
+.btn-logout {
+  color: rgb(253, 131, 131);
+}
+
+.btn-logout:hover {
+  color: rgb(255, 34, 34);
+}
