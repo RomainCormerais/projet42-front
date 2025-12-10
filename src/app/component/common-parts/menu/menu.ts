@@ -1,10 +1,10 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { LoginLogoutService } from '../../../service/login-logout';
 import { AuthService } from '../../../service/auth';
-import { Utilisateur } from '../../../models/utilisateur';
-import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { Store } from '@ngrx/store';
+import { selectTotalQuantite } from '../../../stores/panier.selector';
 
 @Component({
   selector: 'app-menu',
@@ -13,15 +13,25 @@ import { CommonModule } from '@angular/common';
   styleUrl: './menu.css',
 })
 export class MenuComponent {
+  quantiteCommandee = signal<number>(0);
+  isConnected = false;
 
-  isConnected = false
+  store = inject(Store);
 
-  constructor(private router: Router, private logService: LoginLogoutService, private authService : AuthService) {
-    this.authService.isConnected$.subscribe(
-      {
-        next: (res) => this.isConnected = res
-      }
-    )
+  constructor(
+    private router: Router,
+    private logService: LoginLogoutService,
+    private authService: AuthService
+  ) {
+    this.authService.isConnected$.subscribe({
+      next: (res) => (this.isConnected = res),
+    });
+  }
+
+  ngOnInit(): void {
+    this.store.select(selectTotalQuantite).subscribe((total) => {
+      this.quantiteCommandee.set(total);
+    });
   }
 
   login() {

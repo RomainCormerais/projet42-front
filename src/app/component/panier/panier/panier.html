@@ -1,61 +1,58 @@
-<div class="container my-4">
-  <h4 class="text-primary text-center my-4">Panier</h4>
-  @if(logged != ''){
-  <div class="container text-end">
-    <button type="button" class="btn" (click)="chargerPanier()">
-      <i class="fa-solid fa-cloud-arrow-down text-warning fa-2xl"></i>
+<div class="container py-5">
+  <h2 class="mb-4 fw-bold">Mon Panier</h2>
+
+  @if (lignes().length === 0) {
+  <div class="alert alert-info text-center py-4">
+    Votre panier est vide…
+    <br />
+    <a routerLink="/catalogue" class="btn btn-info mt-3">
+      Découvrir les jeux <i class="fas fa-angle-right"></i
+    ></a>
+  </div>
+  } @for (lc of lignes(); track lc.jeu.id_jeu) {
+  <div class="cart-item d-flex align-items-center p-3 mb-3 shadow-sm rounded">
+    <img [src]="'images/' + lc.jeu.image" alt="jeu" class="cart-img rounded" />
+
+    <div class="ms-3 flex-grow-1">
+      <h5 class="mb-1 fw-bold">{{ lc.jeu.nom_jeu }}</h5>
+
+      <p class="text-muted small mb-1">
+        {{ lc.jeu.description_jeu }}
+      </p>
+
+      <div class="fw-semibold">{{ lc.jeu.prix }} €</div>
+    </div>
+
+    <div class="d-flex align-items-center">
+      <button class="quantite-btn btn-light" (click)="retraitPanier(lc.jeu.id_jeu!)">
+        <i class="fa-solid fa-minus"></i>
+      </button>
+      <span class="quantite-value">
+        {{ lc.quantite }}
+      </span>
+      <button class="quantite-btn btn-light" [disabled]="addDisable(lc)" (click)="ajoutPanier(lc)">
+        <i class="fa-solid fa-plus"></i>
+      </button>
+    </div>
+
+    <button class="btn btn-danger ms-3" (click)="retirerDuPanier(lc.jeu.id_jeu!)">
+      <i class="fa-solid fa-trash"></i>
     </button>
   </div>
-  }
-  <table class="table table-striped text-secondary">
-    <thead>
-      <th>Jeu</th>
-      <th>Quantité</th>
-      <th>Prix unitaire</th>
-      <th>Prix total</th>
-      <th></th>
-    </thead>
-    <tbody>
-      @for (item of lignes(); track $index) {
-      <tr>
-        <td>{{ item.jeu.nom_jeu }}</td>
-        <td>
-          <span>
-            @if(!addDisable(item)){
-            <button class="btn" (click)="ajoutPanier(item)">
-              <i class="fa-solid fa-plus text-primary"></i></button
-            >} @if(addDisable(item)){
-            <span class="badge text-bg-danger">quantité max</span>
-            }
-            {{ item.quantite }}
-            <button class="btn" (click)="retraitPanier(item.jeu.id_jeu!)">
-              <i class="fa-solid fa-minus text-danger"></i></button
-          ></span>
-        </td>
-        <td>{{ item.jeu.prix | currency : '' : '€' }}</td>
-        <td>{{ item.jeu.prix * item.quantite | currency : '' : '€' }}</td>
-        <td>
-          <button type="button" class="btn" (click)="retirerDuPanier(item.jeu.id_jeu!)">
-            <i class="fa-solid fa-x"></i>
-          </button>
-        </td>
-      </tr>
-      } @empty {
-      <p>Votre panier est vide.</p>
-      }
-    </tbody>
-    @if(totalPanier()){
-    <tfoot>
-      <td colspan="2"></td>
-      <td>Total :</td>
-      <td>{{ totalPanier() | currency : '' : '€' }}</td>
-    </tfoot>
-    }
-  </table>
-  @if(logged != ''){
-  <div class="container text-end">
-    <button type="button" class="btn" (click)="sauvegardePanier()">
-      <i class="fa-solid fa-cloud-arrow-up text-warning fa-2xl"></i>
+  } @if (lignes().length > 0) {
+  <div class="cart-total-box shadow-sm p-4 rounded mt-4">
+    <h4 class="fw-bold mb-3">Total : {{ totalPanier() }} €</h4>
+
+    <button class="btn btn-success w-100 mb-3 py-2">
+      Procéder au paiement <i class="fas fa-angle-right"></i>
+    </button>
+
+    <button class="btn btn-outline-primary w-100 mb-2" (click)="sauvegardePanier()">
+      Sauvegarder le panier en ligne
+    </button>
+
+    <button class="btn btn-outline-secondary w-100" (click)="chargerPanier()">
+      <i class="fas fa-cloud-upload-alt"></i> Charger le panier en ligne
     </button>
   </div>
   }

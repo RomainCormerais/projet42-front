@@ -9,10 +9,11 @@ import { Store } from '@ngrx/store';
 import { selectLignes, selectNombreProduit } from '../../../stores/panier.selector';
 import { addProduit, removeAllProduit, removeProduit } from '../../../stores/panier.action';
 import { mergeMap, Subscription } from 'rxjs';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-panier',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './panier.html',
   styleUrl: './panier.css',
 })
@@ -55,6 +56,7 @@ export class PanierComponent implements OnDestroy {
     this.addSubscription.forEach((el) => el.unsubscribe());
     this.panierSubscription?.unsubscribe();
   }
+
   calculateTotal() {
     let acc = 0;
     for (let ligne of this.lignes()) {
@@ -62,6 +64,7 @@ export class PanierComponent implements OnDestroy {
     }
     this.totalPanier.set(acc);
   }
+
   retirerDuPanier(id: number) {
     this.store.dispatch(removeAllProduit({ id: id }));
     this.calculateTotal();
@@ -76,9 +79,11 @@ export class PanierComponent implements OnDestroy {
     this.store.dispatch(removeProduit({ id: id }));
     this.calculateTotal();
   }
+
   addDisable(lc: LignePanier): boolean {
     return lc.quantite < lc.jeu.stock ? false : true;
   }
+
   sauvegardePanier() {
     this.ps.emptyPanierById(this.panier().id!).subscribe({
       next: (res) => {},
@@ -97,6 +102,7 @@ export class PanierComponent implements OnDestroy {
       );
     });
   }
+
   chargerPanier() {
     if (
       this.lignes().length == 0 ||

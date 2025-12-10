@@ -1,4 +1,8 @@
 .log {
-    position: absolute;
-    left: 1500px;
+  position: absolute;
+  left: 1500px;
+}
+
+.nav-tabs {
+  border-bottom: none;
 }
