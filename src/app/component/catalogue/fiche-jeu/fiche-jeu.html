@@ -1,7 +1,6 @@
 <div class="container p-5 mt-5">
-  <!-- FICHE PRODUIT -->
+
   <div class="row g-5">
-    <!-- IMAGE -->
     <div class="col-md-6 d-flex justify-content-center">
       <img
         src="images/{{ jeu().image }}"
@@ -11,7 +10,6 @@
       />
     </div>
 
-    <!-- INFOS -->
     <div class="col-md-6">
       <h1 class="fw-bold mb-3">{{ jeu().nom_jeu }}</h1>
 
@@ -50,7 +48,6 @@
     </div>
   </div>
 
-  <!-- AVIS SECTION -->
   <div class="mt-5">
     <h2 class="fw-bold mb-4">Ils l'ont essayé !</h2>
 
@@ -71,6 +68,7 @@
         }
       </div>
 
+      @if (listeAvis().length > 1) {
       <button
         class="carousel-control-prev"
         type="button"
@@ -88,6 +86,7 @@
       >
         <span class="carousel-control-next-icon"></span>
       </button>
+    }
     </div>
 
     }

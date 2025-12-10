@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { JeuService } from '../../../service/jeu';
 import { Jeu } from '../../../models/jeu';
@@ -10,7 +10,6 @@ import { Store } from '@ngrx/store';
 import { AuthService } from '../../../service/auth';
 import { selectLignes } from '../../../stores/panier.selector';
 import { addProduit, removeProduit } from '../../../stores/panier.action';
-
 
 @Component({
   selector: 'app-fiche-jeu',
@@ -36,7 +35,6 @@ export class FicheJeuComponent implements OnInit {
   isConnected: boolean = false;
 
   listeAvis = signal<Avis[]>([]);
-
 
   constructor(
     private route: ActivatedRoute,
