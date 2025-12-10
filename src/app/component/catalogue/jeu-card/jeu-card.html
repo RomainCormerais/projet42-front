@@ -6,13 +6,13 @@
     alt="{{ jeu().nom_jeu }}"
   />
 
-  <button class="favori-btn btn btn-light rounded-circle shadow" (click)="ajoutFavori()">
+  <span class="favori-btn" (click)="ajoutFavori()">
     @if (estFavori(jeu().id_jeu!)) {
     <i class="fa-solid fa-heart text-danger"></i>
     } @else {
-    <i class="fa-regular fa-heart"></i>
+    <i class="fa-solid fa-heart"></i>
     }
-  </button>
+  </span>
   <h5 class="fw-bold">{{ jeu().nom_jeu }}</h5>
 
   <p class="text-muted description">

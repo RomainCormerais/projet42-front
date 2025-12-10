@@ -23,24 +23,24 @@
   height: 50px;
 }
 
-button.btn:focus {
-  border: none;
-}
-
-.btn-light {
+.favori-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  text-align: center;
   padding: 0;
 }
 
-.favori-btn {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  width: 42px;
-  height: 42px;
+.favori-btn i {
+  font-size: 1.2rem;
+  color: lightgray;
+  padding: 0;
+  margin: 0;
 }
 
-.favori-btn i {
-  font-size: 1rem;
+.favori-btn i:hover {
+  font-size: 1.2rem;
+  color: crimson;
   padding: 0;
   margin: 0;
 }
