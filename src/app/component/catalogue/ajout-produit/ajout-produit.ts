@@ -1,5 +1,5 @@
 import { Component, input, OnDestroy, signal } from '@angular/core';
-import { Form, FormsModule } from '@angular/forms';
+import { Form, FormsModule, NgForm } from '@angular/forms';
 import { Jeu } from '../../../models/jeu';
 import { JeuService } from '../../../service/jeu';
 import { Subscription } from 'rxjs';
@@ -13,6 +13,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class AjoutProduitComponent implements OnDestroy {
   id: number = 0;
+  image: File | null = null;
   jeu = signal<Jeu>({
     nom_jeu: '',
     description_jeu: '',
@@ -23,6 +24,7 @@ export class AjoutProduitComponent implements OnDestroy {
   });
   label = signal<string>('Ajouter');
   jeuSubscription: Subscription | null = null;
+  deleteJeuSubscription: Subscription | null = null;
   routeSubscription: Subscription | null = null;
   modifSubscription: Subscription | null = null;
   constructor(
@@ -46,23 +48,35 @@ export class AjoutProduitComponent implements OnDestroy {
     this.modifSubscription?.unsubscribe();
   }
   envoyerDonnees() {
-    console.log(this.jeu());
-    
+    console.log(this.image);
     if (this.jeu().id_jeu) {
       this.jeuService.update(this.jeu().id_jeu!, this.jeu()).subscribe({
-        next: (res) => {},
+        next: (res) => {
+          this.router.navigateByUrl('/catalogue');
+        },
         error: (err) => {
           console.log(err);
         },
       });
     } else {
       this.jeuService.save(this.jeu()).subscribe({
-        next: (res) => {},
+        next: (res) => {
+          this.router.navigateByUrl('/catalogue');
+        },
         error: (err) => {
           console.log(err);
         },
       });
     }
-    this.router.navigateByUrl('/catalogue');
+  }
+  supprimerJeu() {
+    this.deleteJeuSubscription = this.jeuService.remove(this.id).subscribe({
+      next: (res) => {
+        this.router.navigateByUrl('/catalogue');
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
   }
 }

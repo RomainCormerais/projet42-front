@@ -57,6 +57,19 @@
         </div>
         @if(stock.invalid && !stock.pristine){<span>Le stock est obligatoire (0 possible)</span>}
         <div class="form-group text-start">
+          <label for="img">Nom du fichier image du jeu</label>
+          <input
+            class="form-control"
+            type="text"
+            id="img"
+            [(ngModel)]="jeu().image"
+            name="img"
+            #img="ngModel"
+            required
+          />
+        </div>
+        @if(img.invalid && !img.pristine){<span>Nom de l'image obligatoire</span>}
+        <div class="form-group text-start">
           <label for="prix">Prix</label>
           <input
             class="form-control"
@@ -70,9 +83,21 @@
           />
         </div>
         @if(prix.invalid && !prix.pristine){<span>Le prix doit être positif</span>}
-        <button class="btn btn-secondary m-4" type="submit" [disabled]="form.invalid">
-         {{label()}}
-        </button>
+        <div class="container mt-4">
+          @if(id != 0){
+          <button
+            class="btn btn-danger"
+            style="position: relative; right: 52%"
+            type="button"
+            (click)="supprimerJeu()"
+          >
+            supprimer
+          </button>
+          }
+          <button class="btn btn-secondary" type="submit" [disabled]="form.invalid">
+            {{ label() }}
+          </button>
+        </div>
       </form>
     </div>
   </div>
