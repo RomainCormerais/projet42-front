@@ -1,4 +1,3 @@
-@if(avis) {
 <div class="avis-card p-3 rounded shadow-sm bg-white">
   <div class="d-flex justify-content-between align-items-center mb-2">
     <h6 class="fw-bold mb-0">{{ avis.utilisateur.nom_utilisateur }}</h6>
@@ -13,8 +12,3 @@
     {{ avis.contenu }}
   </p>
 </div>
-} @else {
-<div class="avis-card p-3 rounded shadow-sm bg-white">
-  <p class="mb-0 text-secondary">Soyez le premier à donner votre avis !</p>
-</div>
-}
