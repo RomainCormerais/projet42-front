@@ -31,6 +31,7 @@ export class PanierComponent implements OnDestroy {
   totalPanier = signal<number>(0);
   storeSubscription: Subscription | null = null;
   ligneSubscription: Subscription | null = null;
+  panierSubscription: Subscription | null = null;
   addSubscription: Subscription[] = [];
 
   constructor(private ps: PanierService, private lps: LignePanierService, private store: Store) {
@@ -38,12 +39,21 @@ export class PanierComponent implements OnDestroy {
       .select(selectLignes)
       .subscribe((lignes) => this.lignes.set(lignes));
     this.calculateTotal();
+    if (this.logged != '') {
+      this.utilisateur = JSON.parse(this.logged);
+      this.panierSubscription = ps
+        .getPanierByUser(Number(this.utilisateur.id))
+        .subscribe((panier) => {
+          this.panier.set(panier);
+        });
+    }
   }
 
   ngOnDestroy(): void {
     this.storeSubscription?.unsubscribe();
     this.ligneSubscription?.unsubscribe();
     this.addSubscription.forEach((el) => el.unsubscribe());
+    this.panierSubscription?.unsubscribe();
   }
   calculateTotal() {
     let acc = 0;
@@ -70,6 +80,10 @@ export class PanierComponent implements OnDestroy {
     return lc.quantite < lc.jeu.stock ? false : true;
   }
   sauvegardePanier() {
+    this.ps.emptyPanierById(this.panier().id!).subscribe({
+      next: (res) => {},
+      error: (err) => console.log(err),
+    });
     this.lignes().forEach((element) => {
       this.addSubscription.push(
         this.lps
@@ -84,21 +98,20 @@ export class PanierComponent implements OnDestroy {
     });
   }
   chargerPanier() {
-    if (this.logged != '') {
-      this.utilisateur = JSON.parse(this.logged);
-      this.ligneSubscription = this.ps
-        .getPanierByUser(Number(this.utilisateur.id))
-        .pipe(
-          mergeMap((panier) => {
-            this.panier.set(panier);
-            return this.lps.getLignesByPanierId(panier.id!);
-          })
-        )
-        .subscribe({
-          next: (res) => {
+    if (
+      this.lignes().length == 0 ||
+      confirm('Voulez-vous remplacer le panier actuel par celui en ligne ?')
+    ) {
+      if (this.logged != '') {
+        this.ligneSubscription = this.lps
+          .getLignesByPanierId(this.panier().id!)
+          .subscribe((res) => {
+            this.lignes().forEach((element) => {
+              this.store.dispatch(removeAllProduit({ id: element.jeu.id_jeu! }));
+            });
             res.forEach((l) => this.store.dispatch(addProduit({ lc: l })));
-          },
-        });
+          });
+      }
     }
   }
 }

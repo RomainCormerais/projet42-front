@@ -10,10 +10,14 @@ import { environment } from '../../environments/environment.development';
 })
 export class PanierService extends GenericService<Panier> {
   constructor(http: HttpClient) {
-    super(http, '/paniers')
+    super(http, '/paniers');
   }
 
-  getPanierByUser(id : number) : Observable<Panier> {
-    return this.http.get<Panier>(`${environment.BACKEND_URL}${this.path}/user/${id}`)
+  getPanierByUser(id: number): Observable<Panier> {
+    return this.http.get<Panier>(`${environment.BACKEND_URL}${this.path}/user/${id}`);
+  }
+
+  emptyPanierById(id: number) {
+    return this.http.delete(`${environment.BACKEND_URL}${this.path}/vider/${id}`);
   }
 }
