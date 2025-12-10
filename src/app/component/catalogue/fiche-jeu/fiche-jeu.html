@@ -1,0 +1,49 @@
+<div class="container">
+    <div class="row">
+        <div class="col-8">
+            <img class="mx-auto d-block" src="images/{{ jeu().image}}" alt="">
+            <h1 class="text-center">{{ jeu().nom_jeu }}</h1>
+            <p>{{ jeu().description_jeu }}</p>
+            <p>Editeur : {{ jeu().editeurDto.nom_editeur }}</p>
+        </div>
+        <div class="col-4">
+            <p>Prix : {{ jeu().prix | currency : '' : '€'}}</p>
+            <p>Plus que {{ jeu().stock }} en stock !</p>
+            <div>
+                @if(isConnected && isAdmin) {
+                <a style="cursor: pointer" (click)="modifierJeu(jeu())">
+                    <i class="fa-solid fa-gear"></i>
+                </a>
+                }
+                @if (quantiteCommandee == 0 ) {
+                <div class="container ">
+                    <button class="btn offset-3" (click)="ajoutPanier()">
+                        <i class="fa-solid fa-cart-plus text-primary"></i>
+                    </button>
+                </div>
+                }@else {
+                <div class="container ">
+                    <button class="btn offset-3" (click)="ajoutPanier()">
+                        <i class="fa-solid fa-plus text-primary"></i>
+                    </button>
+                    {{ quantiteCommandee }}
+                    <button class="btn " (click)="retraitPanier(jeu().id_jeu!)">
+                        <i class="fa-solid fa-minus text-danger"></i>
+                    </button>
+                </div>
+                }
+            </div>
+        </div>
+
+    </div>
+
+    <div>
+        <h2>Ils l'ont essayé</h2>
+        @for (a of listeAvis(); track $index) {
+        <app-avis [avis]="a"></app-avis>
+        }
+    </div>
+
+
+
+</div>
