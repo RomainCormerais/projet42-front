@@ -1,49 +1,93 @@
-<div class="container">
-    <div class="row">
-        <div class="col-8">
-            <img class="mx-auto d-block" src="images/{{ jeu().image}}" alt="">
-            <h1 class="text-center">{{ jeu().nom_jeu }}</h1>
-            <p>{{ jeu().description_jeu }}</p>
-            <p>Editeur : {{ jeu().editeurDto.nom_editeur }}</p>
-        </div>
-        <div class="col-4">
-            <p>Prix : {{ jeu().prix | currency : '' : '€'}}</p>
-            <p>Plus que {{ jeu().stock }} en stock !</p>
-            <div>
-                @if(isConnected && isAdmin) {
-                <a style="cursor: pointer" (click)="modifierJeu(jeu())">
-                    <i class="fa-solid fa-gear"></i>
-                </a>
-                }
-                @if (quantiteCommandee == 0 ) {
-                <div class="container ">
-                    <button class="btn offset-3" (click)="ajoutPanier()">
-                        <i class="fa-solid fa-cart-plus text-primary"></i>
-                    </button>
-                </div>
-                }@else {
-                <div class="container ">
-                    <button class="btn offset-3" (click)="ajoutPanier()">
-                        <i class="fa-solid fa-plus text-primary"></i>
-                    </button>
-                    {{ quantiteCommandee }}
-                    <button class="btn " (click)="retraitPanier(jeu().id_jeu!)">
-                        <i class="fa-solid fa-minus text-danger"></i>
-                    </button>
-                </div>
-                }
-            </div>
-        </div>
-
+<div class="container p-5 mt-5">
+  <div class="row g-5">
+    <div class="col-md-6 d-flex justify-content-center">
+      <img
+        src="images/{{ jeu().image }}"
+        class="img-fluid"
+        style="max-height: 420px; object-fit: cover"
+        alt="{{ jeu().nom_jeu }}"
+      />
     </div>
 
-    <div>
-        <h2>Ils l'ont essayé</h2>
-        @for (a of listeAvis(); track $index) {
-        <app-avis [avis]="a"></app-avis>
+    <div class="col-md-6">
+      <h1 class="fw-bold mb-3">{{ jeu().nom_jeu }}</h1>
+
+      <p class="text-muted mb-2"><strong>Éditeur :</strong> {{ jeu().editeurDto.nom_editeur }}</p>
+
+      <p class="mb-4">{{ jeu().description_jeu }}</p>
+
+      <h3 class="text-info fw-bold mb-3">
+        {{ jeu().prix | currency : '' : '€' }}
+      </h3>
+
+      <p class="text-success mb-4">Stock : {{ jeu().stock }}</p>
+
+      @if(isConnected && isAdmin) {
+      <button class="btn btn-outline-secondary mb-3" (click)="modifierJeu(jeu())">
+        <i class="fa-solid fa-gear me-1"></i> Modifier le jeu
+      </button>
+      }
+
+      <div class="mt-4">
+        <div class="d-flex align-items-center gap-3">
+          <div class="cart-quantite-box">
+            <button class="quantite-btn" (click)="ajoutPanier()">
+              <i class="fa-solid fa-plus"></i>
+            </button>
+            <span class="quantite-value">{{ quantiteCommandee }}</span>
+            <button class="quantite-btn" (click)="retraitPanier(jeu().id_jeu!)">
+              <i class="fa-solid fa-minus"></i>
+            </button>
+            <button class="cart-btn ms-2" (click)="goToPanier()">
+              <i class="fas fa-shopping-cart"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-5">
+    <h2 class="fw-bold mb-4">Ils l'ont essayé !</h2>
+
+    @if (listeAvis().length === 0) {
+    <p class="text-muted">Aucun avis pour le moment.</p>
+    } @else {
+
+    <div id="avisCarousel" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        @for (avis of listeAvis(); track $index) {
+
+        <div class="carousel-item @if($index === 0){ active }">
+          <div class="p-4 mx-auto" style="max-width: 600px; width: 100%">
+            <app-avis [avis]="avis"></app-avis>
+          </div>
+        </div>
+
         }
+      </div>
+
+      @if (listeAvis().length > 1) {
+      <button
+        class="carousel-control-prev"
+        type="button"
+        data-bs-target="#avisCarousel"
+        data-bs-slide="prev"
+      >
+        <span class="carousel-control-prev-icon"></span>
+      </button>
+
+      <button
+        class="carousel-control-next"
+        type="button"
+        data-bs-target="#avisCarousel"
+        data-bs-slide="next"
+      >
+        <span class="carousel-control-next-icon"></span>
+      </button>
+      }
     </div>
 
-
-
+    }
+  </div>
 </div>

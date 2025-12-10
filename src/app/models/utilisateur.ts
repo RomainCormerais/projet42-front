@@ -3,5 +3,5 @@ export interface Utilisateur {
   adresse: string;
   adresseMail: string;
   admin: boolean;
-  nomUtilisateur: string;
+  nom_utilisateur: string;
 }

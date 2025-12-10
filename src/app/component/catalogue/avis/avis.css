@@ -1,0 +1,16 @@
+.avis-card {
+  border: 1px solid #eee;
+  transition: 0.2s ease;
+}
+
+.avis-card i {
+  margin-right: 2px;
+}
+
+:host ::ng-deep .star-full {
+  color: #ffd43b !important;
+}
+
+:host ::ng-deep .star-empty {
+  color: #ffd43b !important;
+}

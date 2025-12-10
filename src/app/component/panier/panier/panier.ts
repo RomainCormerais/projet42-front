@@ -29,7 +29,7 @@ export class PanierComponent implements OnDestroy {
     adresse: '',
     adresseMail: '',
     admin: false,
-    nomUtilisateur: '',
+    nom_utilisateur: '',
   };
   totalPanier = signal<number>(0);
   storeSubscription: Subscription | null = null;
