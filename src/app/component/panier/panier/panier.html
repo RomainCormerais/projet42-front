@@ -39,21 +39,19 @@
       <i class="fa-solid fa-trash"></i>
     </button>
   </div>
-  } @if (lignes().length > 0) {
+  }
   <div class="cart-total-box shadow-sm p-4 rounded mt-4">
+    @if (lignes().length > 0) {
     <h4 class="fw-bold mb-3">Total : {{ totalPanier() }} €</h4>
-
     <button class="btn btn-success w-100 mb-3 py-2">
       Procéder au paiement <i class="fas fa-angle-right"></i>
     </button>
-
     <button class="btn btn-outline-primary w-100 mb-2" (click)="sauvegardePanier()">
       Sauvegarder le panier en ligne
     </button>
-
+    }
     <button class="btn btn-outline-secondary w-100" (click)="chargerPanier()">
       <i class="fas fa-cloud-upload-alt"></i> Charger le panier en ligne
     </button>
   </div>
-  }
 </div>
