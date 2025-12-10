@@ -2,20 +2,20 @@ import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { Jeu } from '../../../models/jeu';
 import { JeuService } from '../../../service/jeu';
 import { EditeurService } from '../../../service/editeur';
-import { Editeur } from '../../../models/editeur';
-import { Router, RouterLink } from '@angular/router';
+
+import { Router } from '@angular/router';
 import { FavorisService } from '../../../service/favoris';
 import { Utilisateur } from '../../../models/utilisateur';
 import { PanierService } from '../../../service/panier';
-import { DetailComponent } from '../detail/detail';
-import { LoginLogoutService } from '../../../service/login-logout';
+
 import { AuthService } from '../../../service/auth';
 import { Subscription } from 'rxjs';
 import { JeuCardComponent } from '../jeu-card/jeu-card';
+import { SearchbarComponent } from '../../../shared/searchbar/searchbar';
 
 @Component({
   selector: 'app-liste-produits',
-  imports: [JeuCardComponent],
+  imports: [JeuCardComponent, SearchbarComponent],
   templateUrl: './liste-produits.html',
   styleUrl: './liste-produits.css',
 })
@@ -31,7 +31,7 @@ export class ListeProduitsComponent implements OnInit, OnDestroy {
     private ps: PanierService,
     private favorisService: FavorisService,
     private authService: AuthService,
-    private router:Router
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -60,6 +60,10 @@ export class ListeProduitsComponent implements OnInit, OnDestroy {
     }
   }
   goToAjouterJeu() {
-    this.router.navigateByUrl('/catalogue/ajout')
+    this.router.navigateByUrl('/catalogue/ajout');
+  }
+
+  goToJeu(jeu: Jeu) {
+    this.router.navigate(['/details', jeu.id_jeu]);
   }
 }

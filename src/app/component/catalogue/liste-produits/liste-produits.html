@@ -1,17 +1,6 @@
 <div class="container mt-4">
   <div class="container col-4 text-end">
-    <form class="searchbar d-flex align-items-center">
-      <input
-        type="search"
-        class="form-control search-input"
-        name="recherche"
-        placeholder="Rechercher un jeu, un éditeur, une catégorie..."
-      />
-
-      <button class="btn btn-info search-btn ms-2" type="submit">
-        <i class="fa-solid fa-magnifying-glass"></i>
-      </button>
-    </form>
+    <app-searchbar [jeux]="listeJeux()" (selectedJeu)="goToJeu($event)"></app-searchbar>
   </div>
 </div>
 @if(connectedUser && connectedUser.admin){
