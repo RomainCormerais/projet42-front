@@ -4,7 +4,7 @@
       <a class="nav-link text-dark" routerLink="">Accueil</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link  text-dark" routerLink="/catalogue">Catalogue</a>
+      <a class="nav-link text-dark" routerLink="/catalogue">Catalogue</a>
     </li>
     @if (isConnected) {
     <li class="nav-item dropdown">
@@ -24,7 +24,9 @@
           >
         </li>
         <li>
-          <a class="dropdown-item" routerLink="/favoris"><i class="fas fa-bookmark"></i> Favoris</a>
+          <a class="dropdown-item" routerLink="/favoris">
+            <i class="fa-solid fa-heart"></i> Favoris</a
+          >
         </li>
         <li><hr class="dropdown-divider" /></li>
         <li>
